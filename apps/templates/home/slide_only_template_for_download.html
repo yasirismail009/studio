@@ -1,0 +1,550 @@
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{#<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block stylesheets %}
+    <script>
+        console.log(`{{ custom_css.design.background_image_base64}}`)
+    </script>
+    {% if custom_css %}
+        <style>
+            body {
+                margin: 0;
+            }
+
+            .slideDiv {
+                width: 1920px;
+                height: 1080px;
+            {% if custom_css.design.is_slide_background %}
+                background-color: {{ custom_css.design.slide_background_color }};
+            {% else %}
+                background-color: #FFFFFF;
+            {% endif %} position: relative
+            }
+
+            .slideFooter {
+                position: absolute;
+                bottom: 0;
+                display: -webkit-box;
+                -webkit-box-direction: {{ custom_css.design.footer_align }};
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .slideFooterLeft {
+            {% if custom_css.design.is_footer_left_background %}
+                background-color: {{ custom_css.design.footer_left_background }};
+            {% else %}
+                background-color: #ffc200;
+            {% endif %}
+                display: -webkit-box;
+                -webkit-box-align: center;
+                -webkit-box-pack: center;
+            {% if custom_css.design.is_footer_left_skew %}
+                -webkit-transform: skew({{ custom_css.design.footer_left_skew }}deg);
+            {% else %}
+                -webkit-transform: skew(-30deg);
+            {% endif %}
+                width: {{ custom_css.design.footer_left_width }}px;
+                margin-top: {{ custom_css.design.footer_left_margin_top }}px;
+                margin-bottom: {{ custom_css.design.footer_left_margin_bottom }}px;
+                margin-left: {{ custom_css.design.footer_left_margin_left }}px;
+                margin-right: {{ custom_css.design.footer_left_margin_right }}px;
+
+
+            }
+
+            .slideFooterLeft img {
+                margin-top: {{ custom_css.design.image_margin_top }}px;
+                margin-bottom: {{ custom_css.design.image_margin_bottom }}px;
+                margin-left: {{ custom_css.design.image_margin_left }}px;
+                margin-right: {{ custom_css.design.image_margin_right }}px;
+
+                padding-top: {{ custom_css.design.image_padding_top }}px;
+                padding-bottom: {{ custom_css.design.image_padding_bottom }}px;
+                padding-left: {{ custom_css.design.image_padding_left }}px;
+                padding-right: {{ custom_css.design.image_padding_right }}px;
+
+                width: {{ custom_css.design.image_width }}px;
+                height: {{ custom_css.design.image_height }}px;
+            {% if custom_css.design.is_footer_left_skew %}
+                -webkit-transform: skew(-{{ custom_css.design.footer_left_skew }}deg);
+            {% else %}
+                -webkit-transform: skew(30deg);
+            {% endif %}
+
+
+            }
+
+            .slideFooterRight {
+            {% if custom_css.design.is_footer_right_background %}
+                background-color: {{ custom_css.design.footer_right_background }};
+            {% else %}
+                background-color: #173371;
+            {% endif %}
+
+                width: {{ custom_css.design.footer_right_width }}px;
+                height: {{ custom_css.design.footer_right_height }}px;
+                margin-top: {{ custom_css.design.footer_right_margin_top }}px;
+                margin-bottom: {{ custom_css.design.footer_right_margin_bottom }}px;
+                margin-left: {{ custom_css.design.footer_right_margin_left }}px;
+                margin-right: {{ custom_css.design.footer_right_margin_right }}px;
+            }
+
+            .slideFooterText {
+                padding: 20px 200px 0px 200px;
+            }
+
+            .slideFooterText h1 {
+                margin-top: {{ custom_css.design.name_margin_top }}px;
+                margin-bottom: {{ custom_css.design.name_margin_bottom }}px;
+                margin-left: {{ custom_css.design.name_margin_left }}px;
+                margin-right: {{ custom_css.design.name_margin_right }}px;
+
+                padding-top: {{ custom_css.design.name_padding_top }}px;
+                padding-bottom: {{ custom_css.design.name_padding_bottom }}px;
+                padding-left: {{ custom_css.design.name_padding_left }}px;
+                padding-right: {{ custom_css.design.name_padding_right }}px;
+                white-space: nowrap;
+            {% if  custom_css.design.is_name_background %}
+                background-color: {{ custom_css.design.name_background_color }};
+            {% endif %}
+                font-weight: {{ custom_css.design.name_font_weight }};
+                color: {{ custom_css.design.name_font_color }};
+                font-size: {{ custom_css.design.name_font_size }}px;
+                font-family: {{ custom_css.design.name_font_family }};
+                text-align: {{ custom_css.design.name_text_align }};
+            }
+
+            .slideTextMajor {
+
+                margin-top: {{ custom_css.design.major_margin_top }}px;
+                margin-bottom: {{ custom_css.design.major_margin_bottom }}px;
+                margin-left: {{ custom_css.design.major_margin_left }}px;
+                margin-right: {{ custom_css.design.major_margin_right }}px;
+
+                padding-top: {{ custom_css.design.major_padding_top }}px;
+           padding-bottom: {{ custom_css.design.major_padding_bottom }}px;
+                padding-left: {{ custom_css.design.major_padding_left }}px;
+                padding-right: {{ custom_css.design.major_padding_right }}px;
+
+            {% if  custom_css.design.is_major_background %}
+                background-color: {{ custom_css.design.major_background_color }};
+            {% endif %}
+
+                text-align: {{ custom_css.design.major_text_align }};
+                font-weight: {{ custom_css.design.major_font_weight }};
+                color: {{ custom_css.design.major_font_color }};
+                font-size: {{ custom_css.design.major_font_size }}px;
+                font-family: {{ custom_css.design.major_font_family }};
+            }
+
+            .slideTextHonor {
+
+                margin-top: {{ custom_css.design.honor_margin_top }}px;
+                margin-bottom: {{ custom_css.design.honor_margin_bottom }}px;
+                margin-left: {{ custom_css.design.honor_margin_left }}px;
+                margin-right: {{ custom_css.design.honor_margin_right }}px;
+
+                padding-top: {{ custom_css.design.honor_padding_top }}px;
+                padding-bottom: {{ custom_css.design.honor_padding_bottom }}px;
+                padding-left: {{ custom_css.design.honor_padding_left }}px;
+                padding-right: {{ custom_css.design.honor_padding_right }}px;
+
+
+            {% if  custom_css.design.is_honor_background %}
+                background-color: {{ custom_css.design.honor_background_color }};
+            {% endif %}
+
+                text-align: {{ custom_css.design.honor_text_align }};
+                font-weight: {{ custom_css.design.honor_font_weight }};
+                color: {{ custom_css.design.honor_font_color }};
+                font-size: {{ custom_css.design.honor_font_size }}px;
+                font-family: {{ custom_css.design.honor_font_family }};
+            }
+
+
+            .slideTextSchool {
+                margin-top: {{ custom_css.design.school_margin_top }}px;
+                margin-bottom: {{ custom_css.design.school_margin_bottom }}px;
+                margin-left: {{ custom_css.design.school_margin_left }}px;
+                margin-right: {{ custom_css.design.school_margin_right }}px;
+
+                padding-top: {{ custom_css.design.school_padding_top }}px;
+                padding-bottom: {{ custom_css.design.school_padding_bottom }}px;
+                padding-left: {{ custom_css.design.school_padding_left }}px;
+                padding-right: {{ custom_css.design.school_padding_right }}px;
+
+            {% if custom_css.design.is_school_background %}
+                background-color: {{ custom_css.design.school_background_color }};
+            {% endif %}
+                color: {{ custom_css.design.school_font_color }};
+                font-size: {{ custom_css.design.school_font_size }}px;
+                font-weight: {{ custom_css.design.school_font_weight }};
+                text-align: {{ custom_css.design.school_text_align }};
+                font-family: {{ custom_css.design.school_font_family }};
+            }
+
+
+        </style>
+    {% else %}
+        <style>
+            body {
+                margin: 0;
+            }
+
+
+            .parentSettingDiv {
+                padding-top: 50px;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .settingPreview {
+                width: 70%;
+
+
+            }
+
+            .btnDesign {
+                background-color: #eeb15d;
+                border: none;
+                color: #1F2937;
+                border-radius: 10px;
+                font-weight: 600;
+                padding: 8px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 24px 2px;
+                width: 160px;
+                cursor: pointer;
+            }
+
+            .settingControls {
+                padding: 10px;
+                width: 29%;
+                margin-left: 20px;
+            }
+
+            .parentCustomizeTable {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+
+            }
+
+            .customize_table label {
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .customize_table input {
+                padding: 4px;
+                border-radius: 10px;
+            }
+
+            .inputFieldWidth {
+                width: 80%;
+            }
+
+            .customize_table .select_font {
+                border-radius: 10px;
+                background-color: #1f2937;
+                color: white;
+                padding: 10px;
+                border: none;
+                font-size: 15px;
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+                -webkit-appearance: button;
+
+                outline: none;
+            }
+
+            .slideDiv {
+                width: 1920px;
+                height: 1080px;
+                background-color: #ffffff;
+                zoom: 58%;
+                position: relative
+            }
+
+
+            .slideFooter {
+                position: absolute;
+                bottom: 0;
+                display: -webkit-box;
+                overflow: hidden;
+                width: 100%;
+            }
+
+            .slideFooterLeft {
+                background-color: #eeb15d;
+                -webkit-transform: skew(-30deg);
+                width: 25%;
+                margin-left: -90px;
+
+            }
+
+            .slideFooterLeft img {
+                margin-left: 170px;
+                margin-top: 50px;
+                -webkit-transform: skew(30deg);
+                width: 200px;
+                height: 200px;
+            }
+
+            .slideFooterRight {
+                width: 1634px;
+                height: 300px;
+                background-color: #173371;
+                margin-left: -100px;
+            }
+
+            .slideFooterText {
+                padding: 20px 200px 0px 200px;
+
+            }
+
+            .slideFooterText h1 {
+                font-weight: 700;
+                color: white;
+                font-size: 60px;
+                font-family: 'Poppins';
+                margin: 0;
+            }
+
+            .slideTextMajor {
+                font-weight: 700;
+                color: white;
+                font-size: 30px;
+                font-family: 'Poppins';
+                margin: 0px;
+            }
+
+
+            .slideTextSchool {
+                font-weight: 700;
+                color: white;
+                font-size: 30px;
+                font-family: 'Poppins';
+                margin: 0px;
+            }
+
+            .slideTextHonor {
+                font-weight: 700;
+                color: white;
+                font-size: 30px;
+                font-family: 'Poppins';
+                margin: 0px;
+            }
+
+            /* Center the loader */
+
+
+        </style>
+    {% endif %}
+{% endblock stylesheets %}
+
+
+<div id="slides_div" class="slideDiv">
+    <div class="slideContent">
+        <audio controls autoplay style="display: none"
+               id="audio_tag" src="" type="audio/mpeg">
+        </audio>
+    </div>
+    <div class="slideFooter">
+        <div class="slideFooterLeft">
+            <img id="org_img"
+                 src="{{ custom_css.design.background_image_base64 }}"
+                 alt="Logo"
+
+            />
+        </div>
+        <div id="slideFooterRight" class="slideFooterRight">
+            <div class="slideFooterText">
+                <h1 id="student_name">
+                    Placeholder 1
+                </h1>
+
+                <p id="student_major" class="slideTextMajor">
+                     Placeholder 2
+                </p>
+                <p id="student_school" class="slideTextSchool">
+                   Placeholder 3
+                </p>
+                <p id="student_honors" class="slideTextHonor">
+                    Placeholder 4
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+
+    <script>
+        var data = JSON.parse('{{slidesView|escapejs}}'.replace(/'/g, '"'));
+    </script>
+
+    <script type="text/javascript">
+        var currentPage = 1;
+
+        function nextPage() {
+            if (currentPage >= data.length) {
+                console.log("skipped");
+            } else {
+                changeActiveStudent(data[currentPage].id);
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_school = document.getElementById("student_school");
+                var student_honors = document.getElementById("student_honors");
+                {#var org_img = document.getElementById("org_img");#}
+                var audio_tag = document.getElementById("audio_tag");
+
+                document.getElementById("student_id").value = data[currentPage].id;
+                student_name.innerText = data[currentPage].name;
+                student_major.innerText = data[currentPage].major;
+                student_school.innerText = data[currentPage].school;
+                student_honors.innerText = data[currentPage].honor;
+
+                {#if (data[currentPage].image != "") {#}
+                {#    org_img.setAttribute("src", data[currentPage].image)#}
+
+                audio_tag.setAttribute("src", data[currentPage].Audio)
+
+                sysend.broadcast("increment", data[currentPage]);
+
+                currentPage += 1;
+
+            }
+        }
+
+        function prevPage() {
+            if (currentPage <= 1) {
+                console.log("skipped");
+            } else {
+                currentPage -= 1;
+                changeActiveStudent(data[currentPage - 1].id);
+
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_school = document.getElementById("student_school");
+                var student_honors = document.getElementById("student_honors");
+                {#var org_img = document.getElementById("org_img");#}
+                var audio_tag = document.getElementById("audio_tag");
+                document.getElementById("student_id").value = data[currentPage - 1].id;
+                student_name.innerText = data[currentPage - 1].name;
+                student_major.innerText = data[currentPage - 1].major;
+                student_school.innerText = data[currentPage - 1].school;
+                student_honors.innerText = data[currentPage - 1].honor;
+                {#if (data[currentPage - 1].image != "") {#}
+                {#    org_img.setAttribute("src", data[currentPage - 1].image)#}
+
+                audio_tag.setAttribute("src", data[currentPage - 1].Audio)
+                sysend.broadcast("increment", data[currentPage - 1]);
+
+            }
+        }
+
+        document.onkeydown = checkKey;
+
+        function checkKey(e) {
+
+            e = e || window.event;
+
+            if (e.keyCode == '38') {
+                // up arrow
+            } else if (e.keyCode == '40') {
+                // down arrow
+            } else if (e.keyCode == '37') {
+                prevPage();
+            } else if (e.keyCode == '39') {
+                nextPage()
+            }
+
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_school = document.getElementById("student_school");
+            var student_honors = document.getElementById("student_honors");
+            {#var org_img = document.getElementById("org_img");#}
+            var audio_tag = document.getElementById("audio_tag");
+            student_name.innerText = data[0].name;
+            student_major.innerText = data[0].major;
+            student_school.innerText = data[0].school;
+            student_honors.innerText = data[0].honor;
+            {#if (data[0].image != "") {#}
+            {#    org_img.setAttribute("src", data[0].image)#}
+
+            audio_tag.setAttribute("src", data[0].Audio)
+
+        });
+    </script>
+    <script>
+        function onStudentNameClick(id) {
+            changeActiveStudent(id);
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_school = document.getElementById("student_school");
+            var student_honors = document.getElementById("student_honors");
+            {#var org_img = document.getElementById("org_img");#}
+            currentPage = data.findIndex(x => x.id == id)
+
+            let obj = data[currentPage]
+            document.getElementById("student_id").value = obj.id;
+            if (student_name) {
+                if (obj.name === null || obj.name === undefined) {
+                    student_name.innerText = ""
+                } else {
+                    student_name.innerText = obj.name;
+                }
+            }
+
+            if (student_major) {
+                if (obj.major === null || obj.major === undefined) {
+                    student_major.innerText = ""
+                } else {
+                    student_major.innerText = obj.name;
+                }
+            }
+            if (student_school) {
+                if (obj.school === null || obj.school === undefined) {
+                    student_school.innerText = ""
+                } else {
+                    student_school.innerText = obj.school;
+                }
+            }
+            if (student_honors) {
+                if (obj.honor === null || obj.honor === undefined) {
+                    student_honors.innerText = ""
+                } else {
+                    student_honors.innerText = obj.honor;
+                }
+            }
+            {#if (org_img) {#}
+            {#    if (obj.image != "") {#}
+            {#        org_img.setAttribute("src", obj.image)#}
+            {#    }#}
+
+            if (audio_tag) {
+                if (obj.Audio != "") {
+                    audio_tag.setAttribute("src", obj.Audio)
+                }
+            }
+
+            sysend.broadcast("increment", obj);
+
+            currentPage += 1
+        }
+
+    </script>
+
+{% endblock javascripts %}

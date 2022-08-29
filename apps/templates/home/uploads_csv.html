@@ -1,0 +1,520 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block title %} Slides {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+    {#<link type="text/css" href="staticfiles/assets/css/slidesView.css" rel="stylesheet">#}
+    <link rel="stylesheet" href="{% static 'assets/css/uploadCsv.css' %}">
+    <style>
+
+        /* The Modal (background) */
+        .modal {
+            display: block; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            top: 40%;
+            left: 15%;
+
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+
+        .lowerThirdTemplate {
+            display: block;
+            padding: 6px 12px;
+            border-top: none;
+        }
+
+        .fullTemplate {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .loaderDiv {
+            position: fixed; /* Stay in place */
+            z-index: 999;
+            height: 100% !important; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+            overflow: hidden;
+        }
+
+        {##loader {#}
+        {#    position: absolute;#}
+        {#    left: 50%;#}
+        {#    top: 50%;#}
+        {#    z-index: 1;#}
+        {#    width: 120px;#}
+        {#    height: 120px;#}
+        {#    margin: -76px 0 0 -76px;#}
+        {#    border: 16px solid #f3f3f3;#}
+        {#    border-radius: 50%;#}
+        {#    border-top: 16px solid #3498db;#}
+        {#    -webkit-animation: spin 2s linear infinite;#}
+        {#    animation: spin 2s linear infinite;#}
+        {
+        #}#}
+        {##}
+        {#@-webkit-keyframes spin {#}
+        {#    0% {#}
+        {#        -webkit-transform: rotate(0deg);#}
+        {#    }#}
+        {#    100% {#}
+        {#        -webkit-transform: rotate(360deg);#}
+        {#    }#}
+        {
+        #}#}
+        {##}
+        {#@keyframes spin {#}
+        {#    0% {#}
+        {#        transform: rotate(0deg);#}
+        {#    }#}
+        {#    100% {#}
+        {#        transform: rotate(360deg);#}
+        {#    }#}
+        {
+        #}#}
+        .wrapper {
+            width: 200px;
+            height: 60px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            border-radius: 50%;
+            background-color: #fff;
+            left: 15%;
+            transform-origin: 50%;
+            animation: circle .5s alternate infinite ease;
+        }
+
+        @keyframes circle {
+            0% {
+                top: 60px;
+                height: 5px;
+                border-radius: 50px 50px 25px 25px;
+                transform: scaleX(1.7);
+            }
+            40% {
+                height: 20px;
+                border-radius: 50%;
+                transform: scaleX(1);
+            }
+            100% {
+                top: 0%;
+            }
+        }
+
+        .circle:nth-child(2) {
+            left: 45%;
+            animation-delay: .2s;
+        }
+
+        .circle:nth-child(3) {
+            left: auto;
+            right: 15%;
+            animation-delay: .3s;
+        }
+
+        @keyframes shadow {
+            0% {
+                transform: scaleX(1.5);
+            }
+            40% {
+                transform: scaleX(1);
+                opacity: .7;
+            }
+            100% {
+                transform: scaleX(.2);
+                opacity: .4;
+            }
+        }
+
+        .wrapper span {
+            position: absolute;
+            top: 75px;
+            font-family: 'Poppins';
+            font-size: 20px;
+            letter-spacing: 12px;
+            color: #fff;
+            left: 15%;
+        }
+
+
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <div id="loaderDiv" class="loaderDiv" style="display: none">
+        <div class="wrapper">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <span>Loading</span>
+        </div>
+        {#        <div id="loader"></div>#}
+    </div>
+    <div id="upload_content_div"
+         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                    <li class="breadcrumb-item">
+                        <a href="#">
+                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">Premier</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Slides</li>
+                </ol>
+            </nav>
+            <h2 class="h4">Uploads Csv</h2>
+            <p class="mb-0">Set your columns Data and upload your Csv here</p>
+        </div>
+
+    </div>
+    {% if messages %}
+        {% for message in messages|slice:":1" %}
+            <div class="modal" id="modal-achievement" tabindex="-1" role="dialog" aria-labelledby="modal-achievement"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="left: 10%; top: 10%" role="document">
+                    <div class="modal-content w-100" style="background-color: #eeb15d">
+
+                        <div class="modal-body pt-0">
+                            <div class="py-0 px-5 text-center">
+                                              <span class="modal-icon display-1 text-white">
+                                                  <svg class="icon icon-lg text-gray-200" fill="currentColor"
+                                                       viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path
+                                                          fill-rule="evenodd"
+                                                          d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+                                                          clip-rule="evenodd"></path></svg>
+                                              </span>
+                                <h2 class="h3 modal-title mb-3 text-white">{{ message }}</h2>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center pt-2 pb-0">
+                            <button type="button" class="btn btn-sm btn-white text-tertiary" onclick="closeModal()"><b>Close</b>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="uploadFormBody">
+
+        <div class="DesignRight card ">
+            <div class="tab">
+                <button class="tablinks" id="lower_third_design" style="background-color: gray
+" onclick="openTemplate('Lowerthird')">Lower Third
+                </button>
+                <button class="tablinks" id="full_template_design" onclick="openTemplate('Fulltemplate')">Full
+                    template
+                </button>
+            </div>
+            <div id="Lowerthird" class="lowerThirdTemplate tabTemplate">
+                {% include 'home/slide_only_template.html' %}
+            </div>
+
+            <div id="Fulltemplate" class="fullTemplate tabTemplate">
+                {% include 'home/full_template_preview.html' %}
+            </div>
+
+        </div>
+
+        <div class="UploadFieldsLeft card " id="lower_third_form" style="display: block">
+            <h4>Select Corresponding Columns</h4>
+            <form name="upload_csv_form" onsubmit="return showLoader()" method="post" action=""
+                  onsubmit="return validateCsvUploadForm()" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="lower_third">
+                <div class="csvUpload_inputField">
+                    <label for="student_name">Placeholder 1</label>
+                    <input class="inputNumber" type="number" id="name_column" name="name_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="student_major">Placeholder 2</label>
+                    <input class="inputNumber" type="number" id="major_column" name="major_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="student_school">Placeholder 3</label>
+                    <input class="inputNumber" type="number" id="school_column" name="school_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="student_honor">Placeholder 4</label>
+                    <input class="inputNumber" type="number" id="honor_column" name="honor_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="image_column">Image Placeholder</label>
+                    <input class="inputNumber" type="number" id="image_column" name="image_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="sort_column">Sorting Column</label>
+                    <input class="inputNumber" type="number" id="sort_column" name="sort_column" min="0">
+                </div>
+                <div style="text-align: start">
+                    <label class="mb-3 mb-0 " style="font-weight: 500">Sorting Type</label>
+                    <div style="display: flex; justify-content: space-around">
+                        <div style="width: 50%;">
+                            <input type="radio"
+                                   id="a_to_z"
+                                   name="sorting_type"
+                                   value="AtoZ"
+
+                            >
+                            <label for="a_to_z">AtoZ</label>
+
+                        </div>
+                        <div style="width: 50%;">
+                            <input type="radio" id="z_to_a"
+                                   name="sorting_type"
+                                   value="normal"
+                            >
+                            <label for="z_to_a">ZtoA</label>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <label for="default_image">Default Image:</label>
+                <input class="uploadFile" type="file" id="default_image" accept=".png, .jpg, .jpeg"
+                       name="default_image">
+
+                <label for="myfile">Select a file:</label>
+                <input class="uploadFile" type="file" id="myfile" accept=".csv" name="myfile"><br><br>
+
+
+                <button type="submit">Submit</button>
+            </form>
+            <p><b><u>Note:</u></b> Csv Column number starts from 0</p>
+        </div>
+
+
+        <div class="UploadFieldsLeft card " id="full_template_form" style="display: none">
+            <h4>Select Corresponding Columns</h4>
+            <form name="upload_csv_form" onsubmit="return showLoader()" method="post" action=""
+                  onsubmit="return validateCsvUploadForm()" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="full_template">
+                <div class="csvUpload_inputField">
+                    <label for="name_column"> Placeholder 1</label>
+                    <input class="inputNumber" type="number" id="student_name" name="name_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="major_column"> Placeholder 2</label>
+                    <input class="inputNumber" type="number" id="student_major" name="major_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="honor_column"> Placeholder 3</label>
+                    <input class="inputNumber" type="number" id="student_honor" name="honor_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="quote_column"> Placeholder 4</label>
+                    <input class="inputNumber" type="number" id="student_quote" name="quote_column" min="0">
+                </div>
+                <div class="csvUpload_inputField">
+                    <label for="image_column">Image Placeholder</label>
+                    <input class="inputNumber" type="number" id="image_column" name="image_column" min="0">
+                </div>
+  <div class="csvUpload_inputField">
+                    <label for="sort_column">Sorting Column</label>
+                    <input class="inputNumber" type="number" id="sort_column" name="sort_column" min="0">
+                </div>
+                <div style="text-align: start">
+                    <label class="mb-3 mb-0 " style="font-weight: 500">Sorting Type</label>
+                    <div style="display: flex; justify-content: space-around">
+                        <div style="width: 50%;">
+                            <input type="radio"
+                                   id="a_to_z"
+                                   name="sorting_type"
+                                   value="AtoZ"
+
+                            >
+                            <label for="a_to_z">AtoZ</label>
+
+                        </div>
+                        <div style="width: 50%;">
+                            <input type="radio" id="z_to_a"
+                                   name="sorting_type"
+                                   value="normal"
+                            >
+                            <label for="z_to_a">ZtoA</label>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <label for="default_image">Default Image:</label>
+                <input class="uploadFile" type="file" id="default_image" accept=".png, .jpg, .jpeg"
+                       name="default_image">
+
+                <label for="csv_file">Select a file:</label>
+                <input class="uploadFile" type="file" id="csv_file" accept=".csv" name="csv_file"><br><br>
+
+
+                <button type="submit">Submit</button>
+            </form>
+            <p><b><u>Note:</u></b> Csv Column number starts from 0</p>
+        </div>
+
+
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script>
+        var modal = document.getElementById("myModal");
+
+        var span = document.getElementsByClassName("close")[0];
+
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("modal-achievement").classList.toggle('fade')
+        }
+    </script>
+    <script>
+        function validateCsvUploadForm() {
+
+            var image_name_split = String(document.forms["upload_csv_form"]["default_image"].value).split(".")
+            var image_extension = String(image_name_split[image_name_split.length - 1]).toLowerCase()
+            if (image_extension.strip() !== "png" || image_extension.strip() !== "jpg" || image_extension.strip() !== "jpeg") {
+                alert("Only png, jpg and jpeg extensions allowed in default image ")
+                return false;
+            }
+
+            var csv_name_split = String(document.forms["upload_csv_form"]["myfile"].value).split(".")
+            var csv_extension = String(csv_name_split[csv_name_split.length - 1]).toLowerCase()
+            if (csv_extension.strip() !== "csv") {
+                alert("Only csv extensions allowed in data input file ")
+                return false;
+            }
+
+
+        }
+
+
+    </script>
+    <script>
+        function openTemplate(templateName) {
+            var i;
+            var x = document.getElementsByClassName("tabTemplate");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            document.getElementById(templateName).style.display = "block";
+            if (templateName == "Fulltemplate") {
+                document.getElementById("lower_third_design").style.backgroundColor = "white";
+                document.getElementById("lower_third_form").style.display = "none";
+                document.getElementById("full_template_form").style.display = "block";
+                document.getElementById("full_template_design").style.backgroundColor = "gray";
+            } else {
+                document.getElementById("lower_third_form").style.display = "block";
+                document.getElementById("full_template_form").style.display = "none";
+                document.getElementById("lower_third_design").style.backgroundColor = "gray";
+                document.getElementById("full_template_design").style.backgroundColor = "white";
+            }
+
+        }
+    </script>
+    <script>
+        function showLoader() {
+            document.getElementById("loaderDiv").style.display = "block";
+            document.getElementById("upload_content_div").style.display = "none";
+            return true
+        }
+    </script>
+{% endblock javascripts %}

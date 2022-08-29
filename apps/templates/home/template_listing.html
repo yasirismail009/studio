@@ -1,0 +1,45 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+
+{% block content %}
+
+    {% if custom_css_list %}
+        <div style="display: flex; flex-wrap: wrap">
+
+            {% for custom_css_item in custom_css_list %}
+
+                <div class="cardsDiv card card-body border-0 shadow col-3" style="margin: 10px;">
+                    <div style="height: 263px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                            background-image: url('{{ custom_css_item.image }}');
+                            background-repeat: no-repeat;
+                            background-size: contain;
+
+                            ">
+                    </div>
+                    <h5 style="font-size: 40px; text-align: center; margin-top: 20px">{{ custom_css_item.template_name }}</h5>
+                </div>
+
+
+
+            {% endfor %}
+
+        </div>
+    {% endif %}
+    {#    {% if custom_css %}#}
+    {##}
+    {#        {% include 'home/customize_full_template_skeleton.html' with custom_css=custom_css %}#}
+    {##}
+    {#    {% endif %}#}
+{% endblock content %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}

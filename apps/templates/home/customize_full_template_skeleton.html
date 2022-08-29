@@ -1,0 +1,633 @@
+{% load static %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/fitty.min.js'></script>
+
+
+{% block stylesheets %}
+{% if custom_css %}
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .slideFullDiv {
+            margin: 0;
+            width: 1920px;
+            height: 1080px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100% 100%;
+            overflow: hidden;
+
+        {% if custom_css.design.background_image_base64 != 'default' %}
+            background-image: url("{{ custom_css.design.background_image_base64 }}");
+        {% endif %}
+        {% if custom_css.design.is_slide_background %}
+            background-color: {{ custom_css.design.slide_background_color }};
+        {% else %}
+            background-color: white;
+        {% endif %}
+
+        }
+
+
+        .slideMainContent {
+            display: -webkit-box;
+            -webkit-box-direction: {{ custom_css.design.image_align }};
+        {% if custom_css.design.image_align != 'row' %}
+            -webkit-justify-content: space-between;
+        {% endif %}
+
+            padding: 250px 0px 0px 100px;
+
+        }
+
+        .slideLeftText {
+            width: 100%;
+        }
+
+
+        .slideLeftText h1 {
+            margin-top: {{ custom_css.design.name_margin_top }}px;
+            margin-bottom: {{ custom_css.design.name_margin_bottom }}px;
+            margin-left: {{ custom_css.design.name_margin_left }}px;
+            margin-right: {{ custom_css.design.name_margin_right }}px;
+
+            padding-top: {{ custom_css.design.name_padding_top }}px;
+            padding-bottom: {{ custom_css.design.name_padding_bottom }}px;
+            padding-left: {{ custom_css.design.name_padding_left }}px;
+            padding-right: {{ custom_css.design.name_padding_right }}px;
+            width: 100%;
+        {% if  custom_css.design.is_name_background %}
+            background-color: {{ custom_css.design.name_background_color }};
+        {% endif %}
+            font-weight: {{ custom_css.design.name_font_weight }};
+            color: {{ custom_css.design.name_font_color }};
+            font-size: {{ custom_css.design.name_font_size }}px;
+            font-family: {{ custom_css.design.name_font_family }};
+            text-align: {{ custom_css.design.name_text_align }};
+
+        }
+
+        .slideTextMajor {
+
+            margin-top: {{ custom_css.design.major_margin_top }}px;
+            margin-bottom: {{ custom_css.design.major_margin_bottom }}px;
+            margin-left: {{ custom_css.design.major_margin_left }}px;
+            margin-right: {{ custom_css.design.major_margin_right }}px;
+
+            padding-top: {{ custom_css.design.major_padding_top }}px;
+            padding-bottom: {{ custom_css.design.major_padding_bottom }}px;
+            padding-left: {{ custom_css.design.major_padding_left }}px;
+            padding-right: {{ custom_css.design.major_padding_right }}px;
+
+        {% if  custom_css.design.is_major_background %}
+            background-color: {{ custom_css.design.major_background_color }};
+        {% endif %}
+
+
+            font-weight: {{ custom_css.design.major_font_weight }};
+            color: {{ custom_css.design.major_font_color }};
+            font-size: {{ custom_css.design.major_font_size }}px;
+            font-family: {{ custom_css.design.major_font_family }};
+            text-align: {{ custom_css.design.major_text_align }};
+        }
+
+        .slideTextHonor {
+
+            margin-top: {{ custom_css.design.honor_margin_top }}px;
+            margin-bottom: {{ custom_css.design.honor_margin_bottom }}px;
+            margin-left: {{ custom_css.design.honor_margin_left }}px;
+            margin-right: {{ custom_css.design.honor_margin_right }}px;
+
+            padding-top: {{ custom_css.design.honor_padding_top }}px;
+            padding-bottom: {{ custom_css.design.honor_padding_bottom }}px;
+            padding-left: {{ custom_css.design.honor_padding_left }}px;
+            padding-right: {{ custom_css.design.honor_padding_right }}px;
+
+
+        {% if  custom_css.design.is_honor_background %}
+            background-color: {{ custom_css.design.honor_background_color }};
+        {% endif %}
+
+            text-align: {{ custom_css.design.honor_text_align }};
+            font-weight: {{ custom_css.design.honor_font_weight }};
+            color: {{ custom_css.design.honor_font_color }};
+            font-size: {{ custom_css.design.honor_font_size }}px;
+            font-family: {{ custom_css.design.honor_font_family }};
+        }
+
+        .quoteTextBg {
+            width: 100%;
+        }
+
+        .slideTextQuote {
+
+            margin-top: {{ custom_css.design.quote_margin_top }}px;
+            margin-bottom: {{ custom_css.design.quote_margin_bottom }}px;
+            margin-left: {{ custom_css.design.quote_margin_left }}px;
+            margin-right: {{ custom_css.design.quote_margin_right }}px;
+
+            padding-top: {{ custom_css.design.quote_padding_top }}px;
+            padding-bottom: {{ custom_css.design.quote_padding_bottom }}px;
+            padding-left: {{ custom_css.design.quote_padding_left }}px;
+            padding-right: {{ custom_css.design.quote_padding_right }}px;
+
+        {% if custom_css.design.is_quote_background %}
+            background-color: {{ custom_css.design.quote_background_color }};
+        {% endif %}
+            color: {{ custom_css.design.quote_font_color }};
+            font-size: {{ custom_css.design.quote_font_size }}px;
+            font-weight: {{ custom_css.design.quote_font_weight }};
+            text-align: {{ custom_css.design.quote_text_align }};
+
+            font-family: {{ custom_css.design.quote_font_family }};
+        }
+
+        .slideRight {
+        {% if custom_css.design.image_align != 'row' %}
+            margin-right: 20px;
+        {% endif %}
+            width: {{ custom_css.design.div_right_width}}px;
+
+
+        }
+
+        .slideLeft {
+            width: {{ custom_css.design.div_left_width }}px;
+        }
+
+        .slideRight img {
+            margin-top: {{ custom_css.design.image_margin_top }}px;
+            margin-bottom: {{ custom_css.design.image_margin_bottom }}px;
+            margin-left: {{ custom_css.design.image_margin_left }}px;
+            margin-right: {{ custom_css.design.image_margin_right }}px;
+
+            padding-top: {{ custom_css.design.image_padding_top }}px;
+            padding-bottom: {{ custom_css.design.image_padding_bottom }}px;
+            padding-left: {{ custom_css.design.image_padding_left }}px;
+            padding-right: {{ custom_css.design.image_padding_right }}px;
+
+            float: end;
+            width: {{ custom_css.design.image_width }}px;
+            height: {{ custom_css.design.image_height }}px;
+
+        }
+        </style
+        {% else %}
+      <style>
+    .slideFullDiv {
+
+                margin: 0;
+                border-radius: 10px;
+                width: 1920px;
+                height: 1080px;
+                background-color: #ffffff;
+                zoom: 58%;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 100% 100%;
+                overflow: hidden;
+                padding: 15px;
+            {% if background_image %}
+                background: linear-gradient(
+                        rgba(255, 255, 255, 0.1),
+                        rgba(255, 255, 255, 0.1)
+                ), url({{ background_image }}) ;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            {% endif %}
+
+            }
+
+
+            .slideMainContent {
+                display: -webkit-flex;
+                flex-direction: row;
+
+                padding: 250px 0px 0px 100px;
+            }
+
+            .slideLeftText h1 {
+                font-weight: 800;
+                color: black;
+                font-size: 70px;
+                font-family: 'Poppins';
+                margin: 0px;
+
+
+            }
+
+            .slideTextMajor {
+                font-weight: 400;
+                color: black;
+                font-size: 35px;
+                font-family: 'Poppins';
+                margin: 0px 0px 10px 0px;
+            }
+             .slideTextHonor {
+                font-weight: 400;
+                color: black;
+                font-size: 35px;
+                font-family: 'Poppins';
+                margin: 0px 0px 10px 0px;
+            }
+
+            .quoteTextBg {
+                width: 100%;
+            }
+
+            .slideTextQuote {
+                font-weight: 400;
+                color: black;
+                font-size: 30px;
+                font-family: 'Poppins';
+                margin: 0;
+            }
+
+            .slideRight {
+                width: 50%;
+            }
+
+            .slideLeft {
+                width: 50%;
+
+            }
+
+            .slideRight img {
+                float: end;
+                margin-left: 150px;
+                width: 600px;
+                height: 600px;
+            }
+
+            .accordion-button::after {
+
+                content: none;
+
+            }
+
+    </style>
+    {% endif %}
+{% endblock stylesheets %}
+{% block content %}
+    <div id="slides_div" class="slideFullDiv">
+        <div class="slideMainContent">
+
+            <div id="slideLeft" class="slideLeft">
+                <div id="slideLeftText" class="slideLeftText">
+                    <h1 id="student_name">
+                        Placeholder 1
+                    </h1>
+
+                    <p id="student_major" class="slideTextMajor">
+                        Placeholder 2
+                    </p>
+                    <p id="student_honors" class="slideTextHonor">
+                        Placeholder 3
+                    </p>
+                    <div id="quote_text_bg" class="quoteTextBg">
+                        <p id="student_quote" class="slideTextQuote">
+                            Placeholder 4
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="slideRight" class="slideRight">
+                <img id="student_img"
+                     src="data:image/png;base64,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"
+                     alt="image"/>
+            </div>
+        </div>
+        <div style="height: 100px;  bottom: 0px;">
+            <audio controls autoplay style="display: none"
+                   id="audio_tag" src="" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+    {#     	<script src="apps/static/assets/js/fittext.js"></script>#}
+    {#	<script type="text/javascript">#}
+    {#	  window.fitText(document.getElementById('student_name'), 10)#}
+    {#	</script>#}
+{% endblock content %}
+
+{% block javascripts %}
+
+    <script>
+
+        var data = eval('{{slidesView|escapejs}}');
+
+
+    </script>
+    <script>
+
+        fitty('#student_name', {maxSize: {{ custom_css.design.name_font_size }}});
+    </script>
+
+    <script type="text/javascript">
+        var currentPage = 1;
+
+        function nextPage() {
+            if (currentPage >= data.length) {
+                console.log("skipped");
+            } else {
+                changeActiveStudent(data[currentPage].id);
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_quote = document.getElementById("student_quote");
+                var student_honors = document.getElementById("student_honors");
+                var student_img = document.getElementById("student_img");
+                var audio_tag = document.getElementById("audio_tag");
+
+                document.getElementById("student_id").value = data[currentPage].id;
+                if (student_name) {
+                    if (data[currentPage].name === null || data[currentPage].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[currentPage].name;
+
+                    }
+                }
+                if (student_major) {
+                    if (data[currentPage].major === null || data[currentPage].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[currentPage].major;
+                    }
+                }
+                if (student_quote) {
+                    if (data[currentPage].quote === null || data[currentPage].quote === undefined) {
+                        student_quote.innerText = ""
+                    } else {
+                        student_quote.innerText = data[currentPage].quote;
+                    }
+                }
+                if (student_honors) {
+                    if (data[currentPage].honor === null || data[currentPage].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[currentPage].honor;
+                    }
+                }
+                if (student_img) {
+                    if (data[currentPage].image != "") {
+                        student_img.setAttribute("src", data[currentPage].image)
+                    } else {
+                        console.log("IMG DATA: " + data[currentPage].image)
+                        try {
+                            student_img.setAttribute("src", "{{ custom_css.design.default_image_base64  }}")
+                        } catch (err) {
+                            console.log("err: " + err)
+                        }
+
+                    }
+
+                }
+                if (audio_tag) {
+                    if (data[currentPage].Audio != "") {
+                        audio_tag.setAttribute("src", data[currentPage].Audio)
+                    }
+                }
+
+
+                sysend.broadcast("increment", data[currentPage]);
+
+                currentPage += 1;
+            }
+        }
+
+        function prevPage() {
+            if (currentPage <= 1) {
+                console.log("skipped");
+            } else {
+                currentPage -= 1;
+                changeActiveStudent(data[currentPage - 1].id);
+
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_quote = document.getElementById("student_quote");
+                var student_honors = document.getElementById("student_honors");
+                var student_img = document.getElementById("student_img");
+                var audio_tag = document.getElementById("audio_tag");
+                document.getElementById("student_id").value = data[currentPage - 1].id;
+                if (student_name) {
+                    if (data[currentPage - 1].name === null || data[currentPage - 1].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[currentPage - 1].name;
+
+                    }
+                }
+                if (student_major) {
+                    if (data[currentPage - 1].major === null || data[currentPage - 1].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[currentPage - 1].major;
+                    }
+                }
+                if (student_quote) {
+                    if (data[currentPage - 1].quote === null || data[currentPage - 1].quote === undefined) {
+                        student_quote.innerText = ""
+                    } else {
+                        student_quote.innerText = data[currentPage - 1].quote;
+                    }
+                }
+                if (student_honors) {
+                    if (data[currentPage - 1].honor === null || data[currentPage - 1].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[currentPage - 1].honor;
+                    }
+                }
+                if (student_img) {
+                    if (data[currentPage - 1].image != "") {
+                        student_img.setAttribute("src", data[currentPage - 1].image)
+                    } else {
+                        console.log("IMG DATA: " + data[currentPage - 1].image)
+                        try {
+                            student_img.setAttribute("src", "{{ custom_css.design.default_image_base64  }}")
+                        } catch (err) {
+                            console.log("err: " + err)
+
+                        }
+
+                    }
+
+                }
+                if (audio_tag) {
+                    if (data[currentPage - 1].Audio != "") {
+                        audio_tag.setAttribute("src", data[currentPage - 1].Audio)
+                    }
+                }
+                sysend.broadcast("increment", data[currentPage - 1]);
+
+            }
+        }
+
+        function checkKey(e) {
+
+            e = e || window.event;
+
+            if (e.keyCode == '38') {
+                // up arrow
+            } else if (e.keyCode == '40') {
+                // down arrow
+            } else if (e.keyCode == '37') {
+                prevPage();
+            } else if (e.keyCode == '39') {
+                nextPage()
+            }
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_quote = document.getElementById("student_quote");
+            var student_honors = document.getElementById("student_honors");
+            var student_img = document.getElementById("student_img");
+            var audio_tag = document.getElementById("audio_tag");
+            if (data) {
+
+
+                if (student_name) {
+                    if (data[0].name === null || data[0].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[0].name;
+                        console.log(data[0].name.length)
+
+                    }
+                }
+
+                if (student_major) {
+                    if (data[0].major === null || data[0].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[0].major;
+                    }
+                }
+                if (student_quote) {
+                    if (data[0].quote === null || data[0].quote === undefined) {
+                        student_quote.innerText = ""
+                    } else {
+                        student_quote.innerText = data[0].quote;
+                    }
+
+                }
+
+                if (student_honors) {
+                    if (data[0].honor === null || data[0].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[0].honor;
+                    }
+                }
+
+                if (student_img) {
+                    if (data[0].image != "") {
+                        student_img.setAttribute("src", data[0].image)
+                    } else {
+                        console.log("IMG DATA: " + data[0].image)
+                        try {
+                            student_img.setAttribute("src", "{{ custom_css.design.default_image_base64  }}")
+                        } catch (err) {
+                            console.log("err: " + err)
+
+                        }
+
+                    }
+
+                }
+                if (audio_tag) {
+                    if (data[0].Audio != "") {
+                        audio_tag.setAttribute("src", data[0].Audio)
+                    }
+
+                }
+            }
+
+        });
+    </script>
+    <script>
+        function onStudentNameClick(id) {
+            changeActiveStudent(id);
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_quote = document.getElementById("student_quote");
+            var student_honors = document.getElementById("student_honors");
+            var student_img = document.getElementById("student_img");
+            currentPage = data.findIndex(x => x.id == id)
+            let obj = data[currentPage]
+            document.getElementById("student_id").value = obj.id;
+
+            if (student_name) {
+                if (obj.name === null || obj.name === undefined) {
+                    student_name.innerText = ""
+                } else {
+                    student_name.innerText = obj.name;
+
+                }
+            }
+
+            if (student_major) {
+                if (obj.major === null || obj.major === undefined) {
+                    student_major.innerText = ""
+                } else {
+                    student_major.innerText = obj.major;
+                }
+            }
+            if (student_quote) {
+                if (obj.quote === null || obj.quote === undefined) {
+                    student_quote.innerText = ""
+                } else {
+                    student_quote.innerText = obj.quote;
+                }
+
+            }
+
+            if (student_honors) {
+                if (obj.honor === null || obj.honor === undefined) {
+                    student_honors.innerText = ""
+                } else {
+                    student_honors.innerText = obj.honor;
+                }
+            }
+
+            if (student_img) {
+                if (obj.image != "") {
+                    student_img.setAttribute("src", obj.image)
+                } else {
+                    console.log("IMG DATA: " + obj.image)
+                    try {
+                        student_img.setAttribute("src", "{{ custom_css.design.default_image_base64  }}")
+                    } catch (err) {
+                        console.log("err: " + err)
+
+                    }
+
+                }
+
+            }
+            if (audio_tag) {
+                if (obj.Audio != "") {
+                    audio_tag.setAttribute("src", obj.Audio)
+                }
+
+            }
+
+            sysend.broadcast("increment", obj);
+
+            currentPage += 1
+        }
+
+    </script>
+
+
+{% endblock javascripts %}

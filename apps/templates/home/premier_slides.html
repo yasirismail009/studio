@@ -1,0 +1,600 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block title %} Slides {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+{#{% block javascripts %}#}
+{#<script>#}
+{#var file_filters = #}
+{#</script>#}
+{#{% endblock javascripts %}#}
+
+{% block content %}
+
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-2">
+        <div class="d-block mb-4 mb-md-0">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                    <li class="breadcrumb-item">
+                        <a href="#">
+                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">Premier</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Slides</li>
+                </ol>
+            </nav>
+
+        </div>
+
+    </div>
+    <div class="card card-body mb-4 flex-row w-100 justify-content-between align-items-center">
+        <div class="col col-md-6 col-lg-3 col-xl-4">
+            <h5>Select Your Data First</h5>
+        </div>
+        <div style="width: 100%; display: flex; justify-content: end">
+            <form method="get" action="">
+
+                <select class="selectTemplateData" name="template_name">
+                    <option value="default" selected="selected">Default Template</option>
+                    {% for single_dropdown_item in custom_template_list %}
+                        {% if request.GET.template_name and  single_dropdown_item == request.GET.template_name %}
+                            <option value="{{ single_dropdown_item }}" selected>{{ single_dropdown_item }}</option>
+                        {% else %}
+                            <option value="{{ single_dropdown_item }}">{{ single_dropdown_item }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <select class="selectStudentData" name="file_name_filter">
+
+                    <option value="default" selected="selected">Select Data Source</option>
+
+                    {% for single_dropdown_item in uploaded_csv_files %}
+                        {% if filters.file_name_filter and filters.file_name_filter == single_dropdown_item %}
+                            <option value="{{ single_dropdown_item }}" selected>{{ single_dropdown_item }}</option>
+                        {% else %}
+                            <option value="{{ single_dropdown_item }}">{{ single_dropdown_item }}</option>
+                        {% endif %}
+                    {% endfor %}
+
+                </select>
+
+{#                <select class="selectStudentData" style="display: none" name="sorting_filter">#}
+{#                    {% if filters.sorting_filter == "aToZ" %}#}
+{#                        <option value="default">Default Filter</option>#}
+{#                        <option value="aToZ" selected>A To Z</option>#}
+{#                        <option value="zToA">Z To A</option>#}
+{#                    {% elif filters.sorting_filter == "zToA" %}#}
+{#                        <option value="default">Default Filter</option>#}
+{#                        <option value="aToZ">A To Z</option>#}
+{#                        <option value="zToA" selected>Z To A</option>#}
+{#                    {% else %}#}
+{#                        <option value="default" selected>Default Filter</option>#}
+{#                        <option value="aToZ">A To Z</option>#}
+{#                        <option value="zToA">Z To A</option>#}
+{##}
+{#                    {% endif %}#}
+                    {#                <option value="default">Default Filter</option>#}
+                    {#                <option value="aToZ">A To Z</option>#}
+                    {#                <option value="zToA">Z To A</option>#}
+{##}
+{#                </select>#}
+                {#            </div>#}
+                {% if render_page == "full_template" %}
+                    <input type="hidden" name="render_page" value="full_template">
+
+                {% else %}
+                    <input type="hidden" name="render_page" value="lower_third">
+                {% endif %}
+                <input type="hidden" name="sorting_filter" value="default">
+
+
+                <input type="submit" class="btnDesignForm" value="Submit">
+
+            </form>
+
+
+        </div>
+    </div>
+    <div class="card card-body border-0 shadow table-wrapper table-responsive">
+        <div class="premierSlideDIv">
+            <div class="slidedisplayDiv">
+                {% if render_page == "full_template" %}
+                    {#                    {% include 'home/full_template_preview.html' %}#}
+                    {% include 'home/customize_full_template_skeleton.html' %}
+                {% else %}
+                    {% include 'home/slide_only_template_for_download.html' %}
+
+                {% endif %}
+            </div>
+            <div class="customizationDesign">
+                <div class="card card-body border-0 shadow">
+                    <p><i class="fas fa-receipt"></i><b>Remote</b></p>
+                    <div class="input-group me-2 me-lg-3 fmxw-400">
+                        <input type="text" id="student_nameSearch" onkeyup="searchFunction()" class="form-control"
+                               placeholder="Search here" title="Type in a name">
+                    </div>
+                    <hr/>
+                    <div>
+                        <div style="display: flex;flex-direction: row ; justify-content: space-between"><p><b>Student
+                            List</b></p>
+                            {#                            <form method="get" action="">#}
+                            {#                                <i id="aToz" class="fas fa-sort-alpha-down" onclick="sortListDir()"></i>#}
+                            {#                                <i id="aToz" class="fas fa-sort-alpha-down"></i>#}
+                            {#                            </form>#}
+                        </div>
+                        <ol class="list-group list-group-numbered" id="scrollableDiv"
+                            style="height:310px; overflow: auto">
+                            {% for studentObj in slidesView %}
+                                <li class="list-group-item draggable" style="color:#eeb15d "  id="{{ studentObj.id }}"
+                                    draggable="true"
+                                    onclick="onStudentNameClick(this.id)"
+
+                                >
+                                  <a href="#" style="color:#eeb15d "> {{ studentObj.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    <hr/>
+                    <div class="sideMenuFooterDiv">
+                        <div class="leftSideButtonDiv">
+                            <button class="btnPlayDesign" id="playButton" onclick="changeAutoplayState()">Autoplay: on
+                            </button>
+                            <button class="btnPlayDesign" data-bs-toggle="modal"
+                                    data-bs-target="#modal-notification">Settings
+                            </button>
+                        </div>
+                        <button class="btnRectangleDesign" style="width: 50%; height: auto" onclick="nextPage()">Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btnDiv">
+            {% if query_params and query_params.strip %}
+
+                <button class="btnDesign" onclick="prevPage()">
+                    Previous
+                </button>
+                <button class="btnDesign" onclick="nextPage()">
+                    Next
+                </button>
+                <form method="post" action="">
+                    {% csrf_token %}
+
+                    <input id="download_type" type="hidden" name="download_type" value="single">
+                    <input id="student_id" type="hidden" name="student_id">
+                    <input id="render_page" type="hidden" name="render_page" value={{ render_page }}>
+                    <input id="file_name_filter" type="hidden" name="file_name_filter"
+                           value={{ filters.file_name_filter }}>
+                    <input id="template_id" type="hidden" name="template_id"
+                           value={{ custom_css.id }}>
+                    <button type="submit" class="btnDesign">
+                        Download
+                    </button>
+                </form>
+                <form method="post" action="">
+                    {% csrf_token %}
+
+                    <input id="download_type" type="hidden" name="download_type" value="all">
+                    <input id="render_page" type="hidden" name="render_page" value={{ render_page }}>
+                    <input id="file_name_filter" type="hidden" name="file_name_filter"
+                           value={{ filters.file_name_filter }}>
+                    <input id="template_id" type="hidden" name="template_id"
+                           value={{ custom_css.id }}>
+
+
+                      <button  type="submit" class="btnDesign">
+                        Download All
+                    </button>
+
+                </form>
+
+                <button class="btnDesign" onclick="speakerSlideHandler('{{ render_page }}')">
+                    FullScreen
+                </button>
+
+                <button class="btnDesign" onclick="speakerWindowHandler()">
+                    Notes
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="btnDivSmallScreen">
+        <button class="btnDesign" onclick="prevPage()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <button class="btnDesign" onclick="nextPage()">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+
+        {#        <a class="btnDesign" href="{% url 'download_slides_view' %}"><i class="fas fa-download"></i></a>#}
+
+        <button class="btnDesign"><i class="fas fa-file-archive"></i></button>
+
+    </div>
+    <!-- Modal Content -->
+    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification"
+         aria-hidden="true">
+        <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+            <div class="modal-content" style="background-color: #1f2937">
+                <div class="modal-header">
+                    <p class="modal-title text-gray-200" id="modal-title-notification">A new experience, personalized
+                        slide time play.</p>
+                </div>
+                <div class="modal-body text-white">
+                    <div class="py-3 text-center">
+                        <label for="student_name">Time in Sec #</label>
+                        <input class="inputNumber" type="number" id="time_column" name="time_column" min="1" max="5">
+
+
+                        <h2 class="h4 modal-title my-3">Input Duration of Slide!</h2>
+                        <p>This time is preview of per slide time.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-white" data-bs-dismiss="modal"
+                            onclick="setTimeFunction()">Set Time
+                    </button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal Content -->
+{% endblock content %}
+{##}
+{#<!-- Specific Page JS goes HERE  -->#}
+{% block javascripts %}
+
+
+    <script>
+        var dragSrcEl = null;
+
+        function handleDragStart(e) {
+            // Target (this) element is the source node.
+            dragSrcEl = this;
+
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+            {#alert(JSON.stringify(e))#}
+            this.classList.add('dragElem');
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault(); // Necessary. Allows us to drop.
+            }
+            this.classList.add('over');
+
+            e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            // this / e.target is the current hover target.
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('over');  // this / e.target is previous target element.
+        }
+
+        function handleDrop(e) {
+            // this/e.target is current target element.
+
+            if (e.stopPropagation) {
+                e.stopPropagation(); // Stops some browsers from redirecting.
+            }
+
+            // Don't do anything if dropping the same column we're dragging.
+            if (dragSrcEl != this) {
+                // Set the source column's HTML to the HTML of the column we dropped on.
+                //alert(this.outerHTML);
+                //dragSrcEl.innerHTML = this.innerHTML;
+                //this.innerHTML = e.dataTransfer.getData('text/html');
+                this.parentNode.removeChild(dragSrcEl);
+                var dropHTML = e.dataTransfer.getData('text/html');
+                this.insertAdjacentHTML('beforebegin', dropHTML);
+                var dropElem = this.previousSibling;
+
+                {#alert(JSON.stringify(dropElem.nextSibling.id))#}
+                current_element_id = dropElem.id
+                after_element_id = dropElem.nextSibling.id
+                console.log(after_element_id)
+                current_index = data.map(function (o) {
+                    return o.id;
+                }).indexOf(parseInt(current_element_id))
+
+                new_index = data.map(function (o) {
+                    return o.id;
+                }).indexOf(parseInt(after_element_id)) - 1
+                console.log("Current Index: " + current_index + ", New Index: " + new_index)
+                {#for (var i=0; i<data.length;i++){#}
+                {#      data.indexOf(std => std.id === current_element_id)#}
+                console.log("BEFORE: " + JSON.stringify(data.map(value => value.name)))
+                var element = data[current_index];
+                data.splice(current_index, 1);
+                data.splice(new_index, 0, element);
+                console.log("After: " + JSON.stringify(data.map(value => value.name)))
+
+                {#data = data#}
+                {#a}a#}
+                addDnDHandlers(dropElem);
+
+            }
+            this.classList.remove('over');
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            // this/e.target is the source node.
+            this.classList.remove('over');
+            {#alert(JSON.stringify(e))#}
+
+            /*[].forEach.call(cols, function (col) {
+              col.classList.remove('over');
+            });*/
+        }
+
+        function addDnDHandlers(elem) {
+            {#alert(JSON.stringify(elem))#}
+            elem.addEventListener('dragstart', handleDragStart, false);
+            elem.addEventListener('dragenter', handleDragEnter, false)
+            elem.addEventListener('dragover', handleDragOver, false);
+            elem.addEventListener('dragleave', handleDragLeave, false);
+            elem.addEventListener('drop', handleDrop, false);
+            elem.addEventListener('dragend', handleDragEnd, false);
+
+        }
+
+        var cols = document.querySelectorAll('#scrollableDiv .draggable');
+        [].forEach.call(cols, addDnDHandlers);
+
+
+    </script>
+    <script>
+
+        var isAutoPlay = false;
+        var intevalID = -1
+        var inputTime = 0;
+
+        function setTimeFunction() {
+            inputTime = document.getElementById("time_column").value;
+
+        }
+
+        function changeAutoplayState() {
+            var button_play = document.getElementById("playButton");
+            if (isAutoPlay === true) {
+                button_play.innerText = "Autoplay: On";
+            } else {
+                button_play.innerText = "Autoplay: Off";
+            }
+            if (isAutoPlay) {
+                clearInterval(intevalID)
+            }
+            isAutoPlay = !isAutoPlay
+            if (isAutoPlay) {
+                if (inputTime === 0) {
+                    intevalID = setInterval(autoPlaySlides, 5000);
+                } else {
+                    var Time = inputTime * 1000;
+                    intevalID = setInterval(autoPlaySlides, Time);
+                }
+            }
+        }
+
+        function autoPlaySlides() {
+            console.log("AUTOPLAY METHOD CALLED, STATE = " + isAutoPlay)
+            if (isAutoPlay) {
+                nextPage();
+            }
+        }
+
+        function scrollIfNeeded(element, container) {
+            {#const scrollBottom = container.scrollTop + container.offsetHeight;#}
+
+            if (element.offsetTop < container.scrollTop) {
+                container.scrollTop = element.offsetTop;
+            } else {
+                const offsetBottom = element.offsetTop + element.offsetHeight;
+                const scrollBottom = container.scrollTop + container.offsetHeight;
+                if (offsetBottom > scrollBottom) {
+                    container.scrollTop = offsetBottom - container.offsetHeight;
+                }
+            }
+        }
+
+        function changeActiveStudent(studentID) {
+            $('li.active').removeClass('active');
+            $("#" + studentID).addClass('active');
+            scrollIfNeeded(document.getElementById(studentID), document.getElementById('scrollableDiv'));
+
+        }
+    </script>
+    <script>
+        function searchFunction() {
+            var input, filter, ol, li, a, i, txtValue;
+            input = document.getElementById('student_nameSearch');
+            filter = input.value.toUpperCase();
+            ol = document.getElementById("scrollableDiv");
+            li = ol.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        function sortListDir() {
+            var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+            list = document.getElementById("scrollableDiv");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            // Make a loop that will continue until no switching has been done:
+            while (switching) {
+                // start by saying: no switching is done:
+                switching = false;
+                b = list.getElementsByTagName("LI");
+                // Loop through all list-items:
+                for (i = 0; i < (b.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* check if the next item should switch place with the current item,
+                    based on the sorting direction (asc or desc): */
+                    if (dir == "asc") {
+                        if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                            /* if next item is alphabetically lower than current item,
+                            mark as a switch and break the loop: */
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                            /* if next item is alphabetically higher than current item,
+                            mark as a switch and break the loop: */
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                    and mark that a switch has been done: */
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                    // Each time a switch is done, increase switchcount by 1:
+                    switchcount++;
+                } else {
+                    /* If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again. */
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        let dropdown_data = JSON.parse('{{uploaded_csv_files|escapejs}}'.replace(/'/g, '"'));
+        console.log("DROPDOWN DATA: " + JSON.stringify(dropdown_data))
+    </script>
+    <script>
+
+
+        /* Get the element you want displayed in fullscreen mode (a video in this example): */
+        var elem = document.getElementById("slides_div");
+
+        /* When the openFullscreen() function is executed, open the video in fullscreen.
+        Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+        function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+        }
+         function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+
+        async function speakerWindowHandler() {
+            window.open(
+                "/transcribe.html",
+                "_blank",
+                "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=500,height=400",
+            );
+
+            await sleep(500);
+            sysend.broadcast("increment", data[currentPage - 1]);
+
+        }
+
+        async function speakerSlideHandler(render_page_name) {
+            window.open(
+                "/fullscreen_slide_view?template_type=" + render_page_name + "&template_id=" + '{{ custom_css.id }}',
+                "_blank",
+                "fullscreen=yes, width =" + screen.width + ", height=" + screen.height,
+            );
+
+            await sleep(500);
+            sysend.broadcast("increment", data[currentPage - 1]);
+        }
+
+
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_school = document.getElementById("student_school");
+            var student_honors = document.getElementById("student_honors");
+             var student_img = document.getElementById("student_img");
+            if (student_name) {
+                student_name.innerText = data[0].name;
+
+            }
+            document.getElementById("student_id").value = data[0].id;
+            changeActiveStudent(data[0].id);
+            if (student_major) {
+                student_major.innerText = data[0].major;
+
+            }
+            if (student_school) {
+                student_school.innerText = data[0].school;
+
+            }
+            if (student_honors) {
+                student_honors.innerText = data[0].honor;
+
+            }
+              if (student_img) {
+                    if (data[0].image != "") {
+                        student_img.setAttribute("src", data[0].image)
+                    }
+                }
+
+
+        });
+    </script>
+
+{% endblock javascripts %}
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+    {#<link type="text/css" href="staticfiles/assets/css/slidesView.css" rel="stylesheet">#}
+    <link rel="stylesheet" href="{% static 'assets/css/slidesView.css' %}">
+    <style>
+        .slideFullDiv {
+            zoom: 58% !important;
+        }
+
+        .slideDiv {
+            zoom: 58% !important;
+        }
+    </style>
+
+{% endblock stylesheets %}

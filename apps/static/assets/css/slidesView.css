@@ -1,0 +1,204 @@
+.slideBody {
+    margin: 0;
+    padding: 10px;
+    background-color: #eeeeee;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.slideBgDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btnDiv {
+    display: flex;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.btnDesign {
+    background-color: #eeb15d;
+    border: none;
+    color: #1F2937;
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+
+    width: 170px;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btnRectangleDesign {
+    background-color: #eeb15d;
+    border: none;
+    color: #1F2937;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+
+    font-weight: 600;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btnPlayDesign {
+    background-color: #eeb15d;
+    border: none;
+    color: #1F2937;
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.btnDivSmallScreen {
+    display: none;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.premierSlideDIv {
+
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    font-family: 'Poppins', sans-serif;
+
+    justify-content: space-between;
+}
+
+.slidedisplayDiv {
+    width: 100%;
+}
+
+.customizationDesign {
+    border-radius: 10px;
+    padding: 5px;
+    background-color: #eeeeee;
+    margin-left: 10px;
+    width: 30%;
+}
+
+.sideMenuFooterDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.leftSideButtonDiv {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    font-family: 'Poppins', sans-serif;
+
+    align-items: center
+}
+
+.selectStudentData {
+    width: 40%;
+    border-radius: 10px;
+    background-color: #1f2937;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    -webkit-appearance: button;
+    appearance: button;
+    font-family: 'Poppins', sans-serif;
+
+    outline: none;
+}
+.selectTemplateData {
+    width: 37%;
+    border-radius: 10px;
+    background-color: #1f2937;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    -webkit-appearance: button;
+    appearance: button;
+    font-family: 'Poppins', sans-serif;
+
+    outline: none;
+}
+.btnDesignForm {
+    background-color: #eeb15d;
+    border: none;
+    color: #1F2937;
+    border-radius: 10px;
+    height: 100%;
+    width: 19%;
+    font-weight: 600;
+    padding: 7px 17px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .btnDiv {
+        display: none;
+    }
+
+    .btnDivSmallScreen {
+        display: block;
+        padding: 20px;
+        justify-content: center;
+        margin-left: 30px;
+        align-items: center;
+    }
+}
+
+@media all and (display-mode: fullscreen) {
+
+    .slideContent {
+        height: 75vh;
+    }
+
+
+}

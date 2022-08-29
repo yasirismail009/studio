@@ -1,0 +1,204 @@
+{% load static %}
+<!-- Specific Page CSS goes HERE  -->
+
+<script src="https://cdn.jsdelivr.net/npm/sysend"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+{% if request.GET.template_type == "full_template" %}
+    <div style="padding-left: 100px; padding-right: 100px">
+
+          {% include 'home/customize_full_template_skeleton.html' with custom_css=custom_css %}
+    </div>
+    <div class="btnDiv" id="fullScreenButtonDiv">
+        <button class="btnDesign" onclick="openFullscreen('slides_div')">
+            FullScreen
+        </button>
+
+    </div>
+{% else %}
+    <div id="content" class="slideBody">
+        {% include 'home/slide_only_template_for_download.html' with custom_css=custom_css %}
+    </div>
+  <div class="btnDiv" id="fullScreenButtonDiv">
+        <button class="btnDesign" onclick="openFullscreen('slides_div')">
+            FullScreen
+        </button>
+
+    </div>
+{% endif %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script type="text/javascript">
+        function openFullscreen(divId) {
+
+            elem = document.getElementById(divId)
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+        }
+    </script>
+
+
+
+    <script>
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+    <script>
+        const handler =  (NameVal) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const render_page_param = urlParams.get('template_type');
+            if (render_page_param === "full_template") {
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_honors = document.getElementById("student_honors");
+                var student_quote = document.getElementById("student_quote");
+                var student_img = document.getElementById("student_img");
+                var audio_tag = document.getElementById("audio_tag");
+
+                if (student_name) {
+                    if (NameVal.name === null || NameVal.name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = NameVal.name;
+                    }
+                }
+                if (student_major) {
+                    if (NameVal.major === null || NameVal.major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = NameVal.major;
+                    }
+                }
+                if (student_quote) {
+                    if (NameVal.quote === null || NameVal.quote === undefined) {
+                        student_quote.innerText = ""
+                    } else {
+                        student_quote.innerText = NameVal.quote;
+                    }
+                }
+                if (student_honors) {
+                    if (NameVal.honor === null || NameVal.honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = NameVal.honor;
+                    }
+                }
+                if (student_img) {
+                    if (NameVal.image != "") {
+                        student_img.setAttribute("src", NameVal.image)
+                    }
+                }
+                if (audio_tag) {
+                    if (NameVal.Audio != "") {
+                        audio_tag.setAttribute("src", NameVal.Audio)
+                    }
+                }
+            } else {
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_school = document.getElementById("student_school");
+                var student_honors = document.getElementById("student_honors");
+                var audio_tag = document.getElementById("audio_tag");
+
+
+                if (student_name) {
+                    if (NameVal === null || NameVal === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = NameVal.name;
+                    }
+                }
+
+                if (student_major) {
+                    if (NameVal === null || NameVal === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = NameVal.name;
+                    }
+                }
+                if (student_school) {
+                    if (NameVal === null || NameVal === undefined) {
+                        student_school.innerText = ""
+                    } else {
+                        student_school.innerText = NameVal.school;
+                    }
+                }
+                if (student_honors) {
+                    if (NameVal.honor === null || NameVal.honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = NameVal.honor;
+                    }
+                }
+
+                if (audio_tag) {
+                    if (NameVal.Audio != "") {
+                        audio_tag.setAttribute("src", NameVal.Audio)
+                    }
+                }
+            }
+
+        };
+        sysend.on("increment", handler);
+
+    </script>
+{% endblock javascripts %}
+{% block stylesheets %}
+
+    {#<link type="text/css" href="staticfiles/assets/css/slidesView.css" rel="stylesheet">#}
+    {#    <link rel="stylesheet" href="{% static 'assets/css/slidesView.css' %}">#}
+    <style>
+
+        .btnDiv {
+            display: flex;
+            padding: 20px;
+            /*justify-content: space-between;*/
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .btnDesign {
+            background-color: #eeb15d;
+            border: none;
+            color: #1F2937;
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            width: 170px;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+       .slideFullDiv {
+           zoom:58% !important;
+       }
+        .slideDiv {
+            zoom: 58% !important;
+        }
+        @media all and (display-mode: fullscreen) {
+
+
+              .slideFullDiv {
+           zoom:100% !important;
+       }
+                .slideDiv {
+             zoom:100% !important;
+        }
+
+        }
+
+    </style>
+{% endblock stylesheets %}

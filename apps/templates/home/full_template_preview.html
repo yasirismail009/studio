@@ -1,0 +1,431 @@
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{#<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block stylesheets %}
+
+    {#<link type="text/css" href="staticfiles/assets/css/slidesView.css" rel="stylesheet">#}
+    {#    <link rel="stylesheet" href="{% static 'assets/css/slidesView.css' %}">#}
+    <style>
+        .slideFullDiv {
+            margin: 0;
+            border-radius: 10px;
+            height: 500px;
+            background-color: #FFFFFF;
+            width: 90%;
+            box-shadow: 10px 10px 5px rgb(206, 206, 206);
+            background: linear-gradient(
+                    rgba(255, 255, 255, 0.1),
+                    rgba(255, 255, 255, 0.1)
+            ), url('media/bgpicture.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100% 100%;
+            overflow: hidden;
+            padding: 15px;
+        {% if background_image %}
+            background: linear-gradient(
+                    rgba(255, 255, 255, 0.1),
+                    rgba(255, 255, 255, 0.1)
+            ), url({{ background_image }}) ;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        {% endif %}
+
+        }
+
+        .slideHeader {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .slideHeader img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .slideMainContent {
+            display: flex;
+            justify-content: space-between;
+            padding: 110px 20px 0px 20px;
+            align-items: center;
+        }
+
+        .slideHeader h1 {
+            font-weight: 700;
+            font-size: 25px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+
+        }
+
+        .slideLeftText h1 {
+            font-weight: 800;
+            color: white;
+            font-size: 30px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+
+        }
+
+        .slideTextSubheading {
+            font-weight: 400;
+            color: white;
+            font-size: 20px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0px 0px 10px 0px;
+        }
+
+        .quoteTextBg {
+            width: 300px;
+        }
+
+        .slideTextQuote {
+            font-weight: 500;
+            color: white;
+            font-size: 15px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .slideRight {
+            max-width: 50%;
+        }
+
+        .slideLeft {
+            max-width: 50%;
+        }
+
+        .slideRight img {
+            width: 300px;
+            height: 300px;
+            padding: 10px;
+            margin-left: 20px;
+        }
+
+    </style>
+{% endblock stylesheets %}
+<div id="content" class="slideBody">
+    <div class="slideBgDiv">
+        <div id="slides_div" class="slideFullDiv">
+            <div class="slideMainContent">
+
+                <div id="slideLeft" class="slideLeft">
+                    <div id="slideLeftText" class="slideLeftText">
+                        <h1 id="student_name">
+                          Placeholder 1
+                        </h1>
+
+                        <p id="student_major" class="slideTextSubheading">
+                            Placeholder 2
+                        </p>
+                        <p id="student_honors" class="slideTextSubheading">
+                             Placeholder 3
+                        </p>
+                        <div class="quoteTextBg">
+                            <p id="student_quote" class="slideTextQuote">
+                                Placeholder 4
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="slideRight" class="slideRight">
+                    <img id="student_img" src="media/student.png" alt="image"/>
+                </div>
+            </div>
+            <div style="height: 100px;  bottom: 0px;">
+                <audio controls autoplay style="display: none"
+                       id="audio_tag" src="" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script>
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        console.log("try 1")
+        {#var data1 = JSON.parse('{{slidesView|escapejs}}'.replace(/'/g, '"'));#}
+        {#var data = eval(data1);#}
+        var data = eval('{{slidesView|escapejs}}');
+
+        var DesignData = JSON.parse('{{design|escapejs}}'.replace(/'/g, '"'));
+        document.getElementById("slideFooterRight").style.backgroundColor = DesignData.footer_right;
+
+
+    </script>
+    {#    <script>#}
+    {#        let data = [];#}
+    {#        var student_id = 0;#}
+    {#        data = SlidesData;#}
+    {##}
+    {##}
+    {#    </script>#}
+    <script type="text/javascript">
+        var currentPage = 1;
+
+        function nextPage() {
+            if (currentPage >= data.length) {
+                console.log("skipped");
+            } else {
+                changeActiveStudent(data[currentPage].id);
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_quote = document.getElementById("student_quote");
+                var student_honors = document.getElementById("student_honors");
+                var student_img = document.getElementById("student_img");
+                var audio_tag = document.getElementById("audio_tag");
+
+                document.getElementById("student_id").value = data[currentPage].id;
+                if (student_name) {
+                    if (data[currentPage].name === null || data[currentPage].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[currentPage].name;
+                    }
+                }
+                if (student_major) {
+                    if (data[currentPage].major === null || data[currentPage].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[currentPage].major;
+                    }
+                }
+                if (student_quote) {
+                    if (data[currentPage].quote === null || data[currentPage].quote === undefined) {
+                        student_quote.innerText = ""
+                    } else  {
+                        student_quote.innerText = data[currentPage].quote;
+                    }
+                }
+                if (student_honors) {
+                    if (data[currentPage].honor === null || data[currentPage].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[currentPage].honor;
+                    }
+                }
+                if (student_img) {
+                    if (data[currentPage].image != "") {
+                        student_img.setAttribute("src", data[currentPage].image)
+                    }
+                }
+                if (audio_tag) {
+                    if (data[currentPage].Audio != "") {
+                        audio_tag.setAttribute("src", data[currentPage].Audio)
+                    }
+                }
+
+
+                sysend.broadcast("increment", data[currentPage]);
+
+                currentPage += 1;
+            }
+        }
+
+        function prevPage() {
+            if (currentPage <= 1) {
+                console.log("skipped");
+            } else {
+                currentPage -= 1;
+                changeActiveStudent(data[currentPage - 1].id);
+
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_quote = document.getElementById("student_quote");
+                var student_honors = document.getElementById("student_honors");
+                var student_img = document.getElementById("student_img");
+                var audio_tag = document.getElementById("audio_tag");
+                document.getElementById("student_id").value = data[currentPage - 1].id;
+                if (student_name) {
+                    if (data[currentPage - 1].name === null || data[currentPage - 1].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[currentPage - 1].name;
+                    }
+                }
+                if (student_major) {
+                    if (data[currentPage - 1].major === null || data[currentPage - 1].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[currentPage - 1].major;
+                    }
+                }
+                if (student_quote) {
+                    if (data[currentPage - 1].quote === null || data[currentPage - 1].quote === undefined) {
+                        student_quote.innerText = ""
+                    } else {
+                        student_quote.innerText = data[currentPage - 1].quote;
+                    }
+                }
+                if (student_honors) {
+                    if (data[currentPage - 1].honor === null || data[currentPage - 1].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[currentPage - 1].honor;
+                    }
+                }
+                if (student_img) {
+                    console.log(JSON.stringify(data[currentPage - 1].image))
+                    if (data[currentPage - 1].image != "") {
+                        student_img.setAttribute("src", data[currentPage - 1].image)
+                    }
+                }
+                if (audio_tag) {
+                    if (data[currentPage - 1].Audio != "") {
+                        audio_tag.setAttribute("src", data[currentPage - 1].Audio)
+                    }
+                }
+                sysend.broadcast("increment", data[currentPage - 1]);
+
+            }
+        }
+
+        document.onkeydown = checkKey;
+
+        function checkKey(e) {
+
+            e = e || window.event;
+
+            if (e.keyCode == '38') {
+                // up arrow
+            } else if (e.keyCode == '40') {
+                // down arrow
+            } else if (e.keyCode == '37') {
+                prevPage();
+            } else if (e.keyCode == '39') {
+                nextPage()
+            }
+
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_quote = document.getElementById("student_quote");
+            var student_honors = document.getElementById("student_honors");
+            var student_img = document.getElementById("student_img");
+            var audio_tag = document.getElementById("audio_tag");
+
+            if (student_name) {
+                if (data[0].name === null || data[0].name === undefined) {
+                    student_name.innerText = ""
+                } else {
+                    student_name.innerText = data[0].name;
+                }
+            }
+
+            if (student_major) {
+                if (data[0].major === null || data[0].major === undefined) {
+                    student_major.innerText = ""
+                } else {
+                    student_major.innerText = data[0].major;
+                }
+            }
+            if (student_quote) {
+                if (data[0].quote === null || data[0].quote === undefined) {
+                    student_quote.innerText = ""
+                } else {
+                    student_quote.innerText = data[0].quote;
+                }
+
+            }
+
+            if (student_honors) {
+                if (data[0].honor === null || data[0].honor === undefined) {
+                    student_honors.innerText = ""
+                } else {
+                    student_honors.innerText = data[0].honor;
+                }
+            }
+
+            if (student_img) {
+                if (data[0].image != "") {
+                    student_img.setAttribute("src", data[0].image)
+                }
+
+            }
+            if (audio_tag) {
+                if (data[0].Audio != "") {
+                    audio_tag.setAttribute("src", data[0].Audio)
+                }
+
+            }
+
+
+        });
+    </script>
+    <script>
+        function onStudentNameClick(id) {
+            changeActiveStudent(id);
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_quote = document.getElementById("student_quote");
+            var student_honors = document.getElementById("student_honors");
+            var student_img = document.getElementById("student_img");
+            currentPage = data.findIndex(x => x.id == id)
+            let obj = data[currentPage]
+            document.getElementById("student_id").value = obj.id;
+
+            if (student_name) {
+                if (obj.name === null || obj.name === undefined) {
+                    student_name.innerText = ""
+                } else {
+                    student_name.innerText = obj.name;
+                }
+            }
+
+            if (student_major) {
+                if (obj.major === null || obj.major === undefined) {
+                    student_major.innerText = ""
+                } else {
+                    student_major.innerText = obj.major;
+                }
+            }
+            if (student_quote) {
+                if (obj.quote === null || obj.quote === undefined) {
+                    student_quote.innerText = ""
+                } else {
+                    student_quote.innerText = obj.quote;
+                }
+
+            }
+
+            if (student_honors) {
+                if (obj.honor === null || obj.honor === undefined) {
+                    student_honors.innerText = ""
+                } else {
+                    student_honors.innerText = obj.honor;
+                }
+            }
+
+            if (student_img) {
+                if (obj.image != "") {
+                    student_img.setAttribute("src", obj.image)
+                }
+
+            }
+            if (audio_tag) {
+                if (obj.Audio != "") {
+                    audio_tag.setAttribute("src", obj.Audio)
+                }
+
+            }
+
+            sysend.broadcast("increment", obj);
+
+            currentPage += 1
+        }
+
+    </script>
+
+
+{% endblock javascripts %}

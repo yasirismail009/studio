@@ -1,0 +1,69 @@
+.uploadFormBody{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.DesignRight{
+    width:69%;
+}
+.UploadFieldsLeft{
+    padding: 20px;
+    width: 30%;
+}
+.UploadFieldsLeft h4{
+    font-weight: 600;
+    text-align: center;
+}
+.UploadFieldsLeft p{
+    text-align: center;
+    color: #999999;
+    border-bottom: #0a0a0a;
+}
+.UploadFieldsLeft label{
+    width: 50%;
+    font-weight: 600;
+    color:#eeb15d;
+ }
+.UploadFieldsLeft .inputNumber{
+    width: 50%;
+    border-radius: 50px;
+    border: 1px solid  #dbdbdb;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 5px;
+}
+
+.UploadFieldsLeft .inputNumber:focus {
+  border: 1px solid  #1f2937;
+}
+.UploadFieldsLeft button{
+  background-color: #eeb15d;
+    border: none;
+    color: #1F2937;
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 10px 44px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 2px;
+    cursor: pointer;
+}
+.UploadFieldsLeft form .uploadFile{
+    width: 100%;
+
+    border: none;
+    padding: 0px;
+
+    margin: 5px;
+}
+form{
+    padding: 20px;
+}
+.csvUpload_inputField{
+    display: flex;
+    flex-direction: row;
+}

@@ -1,0 +1,25 @@
+.cardsParent{
+    display: flex;
+    flex-direction: row;
+justify-content: center;
+    align-items: center;
+}
+.cardsDiv{
+    border-radius: 10px;
+    margin: 20px;
+    width:45%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    text-align: center;
+}
+.cardsDiv img{
+    width: 100%;
+}
+.cardsDiv h5{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.speakingParent h5{
+    text-align: center;
+      padding-top: 15px;
+    padding-bottom: 15px;
+}

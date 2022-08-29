@@ -1,0 +1,564 @@
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{#<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block stylesheets %}
+
+    {#<link type="text/css" href="staticfiles/assets/css/slidesView.css" rel="stylesheet">#}
+    {#    <link rel="stylesheet" href="{% static 'assets/css/slidesView.css' %}">#}
+    <style>
+        .slideBody {
+            margin: 0;
+            padding: 10px;
+            background-color: #eeeeee;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+
+        }
+
+        .slideBgDiv {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .slideDiv {
+            border-radius: 10px;
+            background-color: white;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 10px 10px 5px rgb(206, 206, 206);
+
+        }
+
+        .slideContent {
+            height: 380px;
+        }
+
+        .slideFooter {
+            display: flex;
+            flex-direction: row
+        }
+
+        .slideFooterLeft {
+            background-color: #eeb15d;
+            transform: skew(-30deg);
+            box-shadow: 10px 10px 5px rgba(92, 92, 92, 0.247);
+            width: 300px;
+            margin-left: -55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        {#padding: 0px 100px 0px 100px;#}
+        }
+
+        .slideFooterLeft img {
+            margin-left: 20px;
+        {#margin-top: 35px;#} -webkit-transform: skew(30deg);
+            width: 120px;
+            height: 120px;
+            justify-content: center;
+            align-items: center;
+            vertical-align: center;
+        }
+
+        .slideFooterRight {
+            width: 100%;
+            height: 180px;
+            background-color: #173371;
+            margin-left: -70px;
+        }
+
+        .slideFooterText {
+            padding: 25px 120px 0px 120px;
+            color: white
+        }
+
+        .slideFooterText h1 {
+            font-weight: 700;
+            color: white;
+            font-size: 30px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .slideTextMajor {
+            font-weight: 700;
+            font-size: 20px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .slideTextSchool {
+            font-weight: 700;
+            font-size: 20px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .slideTextHonor {
+            font-weight: 700;
+            font-size: 20px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        /* Center the loader */
+
+
+        @media only screen and (max-width: 600px) {
+            .slideDiv {
+                border-radius: 10px;
+                background-color: white;
+                width: 100%;
+                overflow: hidden;
+                box-shadow: 10px 10px 5px rgb(206, 206, 206);
+
+            }
+
+            .slideContent {
+                height: 250px;
+            }
+
+            .slideFooterLeft {
+                transform: skew(-30deg);
+                box-shadow: 10px 10px 5px rgba(92, 92, 92, 0.247);
+                width: 40px;
+                background-color: white;
+                margin-left: -80px;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                padding: 0px 80px 0px 80px;
+            }
+
+            .slideFooterRight {
+                width: 100%;
+                height: 100px;
+                background-color: #991b1b;
+                margin-left: -80px;
+            }
+
+            .slideFooterText {
+                padding: 10px 0px 0px 110px;
+                color: white
+            }
+
+            .slideFooterText h1 {
+                font-weight: 700;
+                color: white;
+                font-size: 14px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            .slideTextMajor {
+                font-weight: 700;
+                font-size: 9px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            .slideTextSchool {
+                font-weight: 700;
+                font-size: 9px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            .slideTextHonor {
+                font-weight: 700;
+                font-size: 9px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+
+        }
+
+        @media all and (display-mode: fullscreen) {
+            .slideDiv {
+
+                width: 100vw;
+                height: 100vh;
+
+            }
+
+            .slideContent {
+                height: 75vh;
+            }
+
+            .slideFooterLeft {
+                transform: skew(-30deg);
+                box-shadow: 10px 10px 5px rgba(92, 92, 92, 0.247);
+                width: 30%;
+                background-color: white;
+                margin-left: -80px;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                padding: 0px 80px 0px 80px;
+            }
+
+            .slideFooterRight {
+                width: 100%;
+                height: 25vh;
+                background-color: #173371;
+                margin-left: -70px;
+            }
+
+            .slideFooterText {
+                padding: 20px 110px 0px 150px;
+                color: white
+            }
+
+            .slideFooterText h1 {
+                font-weight: 700;
+                color: white;
+                font-size: 40px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            .slideTextMajor {
+                font-weight: 700;
+                font-size: 25px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            .slideTextSchool {
+                font-weight: 700;
+                font-size: 25px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            .slideTextHonor {
+                font-weight: 700;
+                font-size: 25px;
+                font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+        }
+
+    </style>
+{% endblock stylesheets %}
+
+<div id="content" class="slideBody">
+    <div class="slideBgDiv">
+        <div id="slides_div" class="slideDiv">
+            <div class="slideContent">
+                <audio controls autoplay style="display: none"
+                       id="audio_tag" src="" type="audio/mpeg">
+                </audio>
+            </div>
+            <div class="slideFooter">
+                <div class="slideFooterLeft">
+                    <img id="org_img"
+                         src="/static/assets/img/brand/premier.svg"
+                         alt="Logo"
+                    />
+                </div>
+                <div id="slideFooterRight" class="slideFooterRight">
+                    <div class="slideFooterText">
+                        <h1 id="student_name">
+                            Placeholder 1
+                        </h1>
+
+                        <p id="student_major" class="slideTextMajor">
+                             Placeholder 2
+                        </p>
+                        <p id="student_school" class="slideTextSchool">
+                             Placeholder 3
+                        </p>
+                        <p id="student_honors" class="slideTextHonor">
+                             Placeholder 4
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#        <div class="btnDiv">#}
+        {#            <button class="btnDesign" onclick="openFullscreen()">#}
+        {#                FullScreen#}
+        {#            </button>#}
+        {##}
+        {#        </div>#}
+    </div>
+</div>
+
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script>
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        console.log("asd")
+        var data = eval('{{slidesView|escapejs}}');
+        console.log("asd2")
+
+
+    </script>
+
+    <script type="text/javascript">
+        var currentPage = 1;
+
+        function nextPage() {
+            if (currentPage >= data.length) {
+                console.log("skipped");
+            } else {
+                changeActiveStudent(data[currentPage].id);
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_school = document.getElementById("student_school");
+                var student_honors = document.getElementById("student_honors");
+                var org_img = document.getElementById("org_img");
+                var audio_tag = document.getElementById("audio_tag");
+
+                document.getElementById("student_id").value = data[currentPage].id;
+                if (student_name) {
+                    if (data[currentPage].name === null || data[currentPage].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[currentPage].name;
+                    }
+                }
+
+                if (student_major) {
+                    if (data[currentPage].major === null || data[currentPage].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[currentPage].name;
+                    }
+                }
+                if (student_school) {
+                    if (data[currentPage].school === null || data[currentPage].school === undefined) {
+                        student_school.innerText = ""
+                    } else {
+                        student_school.innerText = data[currentPage].school;
+                    }
+                }
+                if (student_honors) {
+                    if (data[currentPage].honor === null || data[currentPage].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[currentPage].honor;
+                    }
+                }
+                if (org_img) {
+                    if (data[currentPage].image != "") {
+                        org_img.setAttribute("src", data[currentPage].image)
+                    }
+                }
+                if (audio_tag) {
+                    if (data[currentPage].Audio != "") {
+                        audio_tag.setAttribute("src", data[currentPage].Audio)
+                    }
+                }
+                sysend.broadcast("increment", data[currentPage]);
+
+                currentPage += 1;
+            }
+        }
+
+        function prevPage() {
+            if (currentPage <= 1) {
+                console.log("skipped");
+            } else {
+                currentPage -= 1;
+                changeActiveStudent(data[currentPage - 1].id);
+
+                var student_name = document.getElementById("student_name");
+                var student_major = document.getElementById("student_major");
+                var student_school = document.getElementById("student_school");
+                var student_honors = document.getElementById("student_honors");
+                var org_img = document.getElementById("org_img");
+                var audio_tag = document.getElementById("audio_tag");
+                document.getElementById("student_id").value = data[currentPage - 1].id;
+
+               if (student_name) {
+                    if (data[currentPage - 1].name === null || data[currentPage - 1].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[currentPage - 1].name;
+                    }
+                }
+
+                if (student_major) {
+                    if (data[currentPage - 1].major === null || data[currentPage - 1].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[currentPage - 1].name;
+                    }
+                }
+                if (student_school) {
+                    if (data[currentPage - 1].school === null || data[currentPage - 1].school === undefined) {
+                        student_school.innerText = ""
+                    } else {
+                        student_school.innerText = data[currentPage - 1].school;
+                    }
+                }
+                if (student_honors) {
+                    if (data[currentPage - 1].honor === null || data[currentPage - 1].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[currentPage - 1].honor;
+                    }
+                }
+                if (org_img) {
+                    if (data[currentPage - 1].image != "") {
+                        org_img.setAttribute("src", data[currentPage - 1].image)
+                    }
+                }
+                if (audio_tag) {
+                    if (data[currentPage - 1].Audio != "") {
+                        audio_tag.setAttribute("src", data[currentPage - 1].Audio)
+                    }
+                }
+                sysend.broadcast("increment", data[currentPage - 1]);
+
+            }
+        }
+
+        document.onkeydown = checkKey;
+
+        function checkKey(e) {
+
+            e = e || window.event;
+
+            if (e.keyCode == '38') {
+                // up arrow
+            } else if (e.keyCode == '40') {
+                // down arrow
+            } else if (e.keyCode == '37') {
+                prevPage();
+            } else if (e.keyCode == '39') {
+                nextPage()
+            }
+
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_school = document.getElementById("student_school");
+            var student_honors = document.getElementById("student_honors");
+            var org_img = document.getElementById("org_img");
+            var audio_tag = document.getElementById("audio_tag");
+             if (student_name) {
+                    if (data[0].name === null || data[0].name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = data[0].name;
+                    }
+                }
+
+                if (student_major) {
+                    if (data[0].major === null || data[0].major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = data[0].name;
+                    }
+                }
+                if (student_school) {
+                    if (data[0].school === null || data[0].school === undefined) {
+                        student_school.innerText = ""
+                    } else {
+                        student_school.innerText = data[0].school;
+                    }
+                }
+                if (student_honors) {
+                    if (data[0].honor === null || data[0].honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = data[0].honor;
+                    }
+                }
+                if (org_img) {
+                    if (data[0].image != "") {
+                        org_img.setAttribute("src", data[0].image)
+                    }
+                }
+                if (audio_tag) {
+                    if (data[0].Audio != "") {
+                        audio_tag.setAttribute("src", data[0].Audio)
+                    }
+                }
+        });
+    </script>
+    <script>
+        function onStudentNameClick(id) {
+            changeActiveStudent(id);
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_school = document.getElementById("student_school");
+            var student_honors = document.getElementById("student_honors");
+            var org_img = document.getElementById("org_img");
+            currentPage = data.findIndex(x => x.id == id)
+
+            let obj = data[currentPage]
+            document.getElementById("student_id").value = obj.id;
+            if (student_name) {
+                    if (obj.name === null || obj.name === undefined) {
+                        student_name.innerText = ""
+                    } else {
+                        student_name.innerText = obj.name;
+                    }
+                }
+
+                if (student_major) {
+                    if (obj.major === null || obj.major === undefined) {
+                        student_major.innerText = ""
+                    } else {
+                        student_major.innerText = obj.name;
+                    }
+                }
+                if (student_school) {
+                    if (obj.school === null || obj.school === undefined) {
+                        student_school.innerText = ""
+                    } else {
+                        student_school.innerText = obj.school;
+                    }
+                }
+                if (student_honors) {
+                    if (obj.honor === null || obj.honor === undefined) {
+                        student_honors.innerText = ""
+                    } else {
+                        student_honors.innerText = obj.honor;
+                    }
+                }
+                if (org_img) {
+                    if (obj.image != "") {
+                        org_img.setAttribute("src", obj.image)
+                    }
+                }
+                if (audio_tag) {
+                    if (obj.Audio != "") {
+                        audio_tag.setAttribute("src", obj.Audio)
+                    }
+                }
+                alert(obj)
+            sysend.broadcast("increment", obj);
+
+            currentPage += 1
+        }
+
+    </script>
+
+
+{% endblock javascripts %}

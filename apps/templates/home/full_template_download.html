@@ -1,0 +1,145 @@
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{#<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block stylesheets %}
+
+    {#<link type="text/css" href="staticfiles/assets/css/slidesView.css" rel="stylesheet">#}
+    {#    <link rel="stylesheet" href="{% static 'assets/css/slidesView.css' %}">#}
+    <style>
+        body {
+            margin: 0 !important;
+        }
+
+        .slideFullDiv {
+            margin: 0;
+            height: 100%;
+            background-color: red;
+            width: 100%;
+            overflow: hidden;
+            padding: 0;
+        {% if background_image %}
+            background-image: url({{ background_image }}) ;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        {% endif %}
+
+        }
+
+
+        .slideMainContent {
+            display: -webkit-box;
+            -webkit-justify-content: space-between;
+            padding: 300px 0px 0px 100px;
+            -webkit-align-items: center;
+        }
+
+        .slideLeftText {
+            margin-top: 100px;
+            width: 50%;
+        }
+
+        .slideLeftText h1 {
+            font-weight: 800;
+            color: white;
+            font-size: 70px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+
+        }
+
+        .slideTextSubheading {
+            font-weight: 400;
+            color: white;
+            font-size: 35px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0px 0px 10px 0px;
+        }
+
+        .quoteTextBg {
+            width: 100%;
+        }
+
+        .slideTextQuote {
+            font-weight: 500;
+            color: white;
+            font-size: 30px;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        img {
+            float: end;
+            margin-left: 150px;
+            width: 600px;
+            height: 600px;
+        }
+
+
+    </style>
+{% endblock stylesheets %}
+<div id="slides_div" class="slideFullDiv">
+    <div class="slideMainContent">
+        <div id="slideLeftText" class="slideLeftText">
+            <h1 id="student_name">
+                Placeholder 1
+            </h1>
+
+            <p id="student_major" class="slideTextSubheading">
+                 Placeholder 2
+            </p>
+            <p id="student_honors" class="slideTextSubheading">
+               Placeholder 3
+            </p>
+            <div class="quoteTextBg">
+                <p id="student_quote" class="slideTextQuote">
+                    Placeholder 4
+                </p>
+            </div>
+        </div>
+
+
+        <img id="student_img" src="media/student.png" alt="image"/>
+    </div>
+    <div style="height: 100px;  bottom: 0px;">
+        <audio controls autoplay style="display: none"
+               id="audio_tag" src="" type="audio/mpeg">
+        </audio>
+    </div>
+</div>
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script>
+
+
+        var data = JSON.parse('{{slidesView|escapejs}}'.replace(/'/g, '"'));
+        var DesignData = JSON.parse('{{design|escapejs}}'.replace(/'/g, '"'));
+        document.getElementById("slideFooterRight").style.backgroundColor = DesignData.footer_right;
+
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+
+            var student_name = document.getElementById("student_name");
+            var student_major = document.getElementById("student_major");
+            var student_quote = document.getElementById("student_quote");
+            var student_honors = document.getElementById("student_honors");
+            var student_img = document.getElementById("student_img");
+            var audio_tag = document.getElementById("audio_tag");
+            student_name.innerText = data[0].name;
+            student_major.innerText = data[0].major;
+            student_quote.innerText = data[0].quote.replace("\"", "\\\"");;
+            student_honors.innerText = data[0].honor;
+            if (data[0].image != "") {
+                student_img.setAttribute("src", data[0].image)
+            }
+            audio_tag.setAttribute("src", data[0].Audio)
+
+        });
+    </script>
+
+
+{% endblock javascripts %}

@@ -1,0 +1,874 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{#{% block title %} Slides {% endblock %}#}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block extra_css %}
+    <!-- DataTables -->
+    <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'libs/dropzone/dist/min/dropzone.min.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+
+
+{% block content %}
+
+    <div id="upload_content_div"
+         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+        <div class="d-block mb-4 mb-md-0">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                    <li class="breadcrumb-item">
+                        <a href="#">
+                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">Premier</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Slides</li>
+                </ol>
+            </nav>
+            <h2 class="h4">Uploads Csv</h2>
+            <p class="mb-0">Set your columns Data and upload your Csv here</p>
+        </div>
+
+    </div>
+    <div class="uploadFormBody">
+
+
+        <!-- One "tab" for each step in the form: -->
+{##}
+{#        <div class="card card-body p-4 flex justify-content-center align-items-center">#}
+{#            <div class="w-75 px-2">#}
+{##}
+{#                <div class="w-100">#}
+{#                    {% if step  == 1 %}#}
+{#                        <div class="w-100 row p-4 d-flex flex-row  justify-content-around align-items-center">#}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold text-warning w-100">1. Upload</h4>#}
+{##}
+{##}
+{#                            </div>#}
+{##}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold  w-100">2. Sort Data</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{##}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold  w-100">3. Map Data</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{#                        </div>#}
+{#                    {% elif step  == 2 %}#}
+{#                        <div class="w-100 row p-4 d-flex flex-row  justify-content-around align-items-center">#}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold w-100">1. Upload</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold text-warning  w-100">2. Sort Data</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{##}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold  w-100">3. Map Data</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{#                        </div>#}
+{#                    {% else %}#}
+{#                        <div class="w-100 row p-4 d-flex flex-row  justify-content-around align-items-center">#}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold w-100">1. Upload</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold text-warning  w-100">2. Sort Data</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{##}
+{#                            <div class="w-100 active col d-flex flex-row text-center">#}
+{##}
+{#                                <h4 class="font-weight-bold text-warning w-100">3. Map Data</h4>#}
+{##}
+{#                            </div>#}
+{##}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{##}
+{#            </div>#}
+{##}
+{#            {% if step  == 1 %}#}
+                {#                <div class="tab w-100 justify-content-center align-items-center p-4">#}
+                {#                    <div class="w-100 d-flex flex-column justify-content-center align-items-center p-4"><i#}
+                {#                            class="fas fa-file-excel fs-1 "></i>#}
+                {#                        <p class="fs-3 font-weight-bold">Upload your csv here</p>#}
+                {#                    </div>#}
+                {#                    <form name="upload_csv_form" method="post" action=""#}
+                {#                          enctype="multipart/form-data">#}
+                {#                        {% csrf_token %}#}
+                {#                        <div class="w-100 d-flex flex-row justify-content-center align-items-center">#}
+                {#                            <div class=" justify-content-center align-items-center ml-4">#}
+                {#                                <label for="csv_file">Select a file:</label><br/>#}
+                {#                                <input oninput="this.className = ''" type="file" id="csv_file" accept=".csv"#}
+                {#                                       name="csv_file">#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <input type="hidden" value=1 name="step">#}
+                {#                        <div class="d-flex d-flex flex-row justify-content-center align-items-center "><input#}
+                {#                                class="btn btn-warning mt-4 "#}
+                {#                                type="submit">#}
+                {#                        </div>#}
+                {##}
+                {#                    </form>#}
+                {#                </div>#}
+{#            {% elif step  == 2 %}#}
+{#                <!-- Button Modal -->#}
+{##}
+{#                <!-- Modal Content -->#}
+{#                <div class="modal fade" id="modal-sort" tabindex="-1" role="dialog" aria-labelledby="modal-default"#}
+{#                     aria-hidden="true">#}
+{#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
+{#                        <div class="modal-content bg-secondary text-white border-0">#}
+{#                            <div class="modal-header">#}
+{#                                <h2 class="h4 modal-title text-white">Apply Sorting</h2>#}
+{#                                <button type="button" class="btn-close text-white" data-bs-dismiss="modal"#}
+{#                                        aria-label="Close "></button>#}
+{#                            </div>#}
+{#                            <div class="modal-body">#}
+{#                                <div class="card bg-secondary ">#}
+{#                                    <div id="main"#}
+{#                                         class="w-100 d-flex flex-row justify-content-around align-items-center mb-4 mt-4">#}
+{#                                        <button type="button" id="btAdd" class="btn btn-warning w-25"#}
+                                                {#                                                onclick="ClickCheck()">Add#}
+{#                                        >Add#}
+{#                                            <i class="fas fa-plus-circle fs-4 text-white" style="margin-left: 10px"></i>#}
+{#                                        </button>#}
+{#                                        <button type="button" id="btRemove" class="btn btn-warning w-25"> Remove#}
+{#                                            <i class="fas fa-minus-circle fs-4 text-white ml"></i>#}
+{#                                        </button>#}
+{#                                    </div>#}
+{#                                    <form name="upload_csv_form" method="post" action=""#}
+{#                                          enctype="multipart/form-data">#}
+{#                                        {% csrf_token %}#}
+{#                                        <div class="parent">#}
+{#                                            <div id="selectMore"#}
+{#                                                 class="d-flex flex-row justify-content-center align-items-center">#}
+{#                                                <div class="m-2">#}
+{#                                                    <div class="input-group mb-3">#}
+{#                                                        <div class="input-group-prepend">#}
+{#                                                            <label class="input-group-text" for="inputGroupSelect01">Options</label>#}
+{#                                                        </div>#}
+{#                                                        <select class="custom-select" id="sorting_0" name="sorting_0">#}
+{#                                                            <option value="" disabled="disabled" selected="selected">#}
+{#                                                                Select option#}
+{#                                                            </option>#}
+{#                                                            {% for header in df.columns %}#}
+{#                                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                                            {% endfor %}#}
+{#                                                        </select>#}
+{#                                                    </div>#}
+{##}
+{##}
+{#                                                </div>#}
+{#                                                <div class="m-2">#}
+{#                                                    <div class="input-group mb-3">#}
+{#                                                        <div class="input-group-prepend">#}
+{#                                                            <label class="input-group-text" for="inputGroupSelect01">Options</label>#}
+{#                                                        </div>#}
+{#                                                        <select class="custom-select" id="order_0" name="order_0">#}
+{#                                                            <option value="" disabled="disabled" selected="selected">#}
+{#                                                                Sort By#}
+{#                                                            </option>#}
+{#                                                            <option value="Ascending">Ascending</option>#}
+{#                                                            <option value="Descending">Descending</option>#}
+{#                                                        </select>#}
+{#                                                    </div>#}
+{##}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <input type="hidden" value=2 name="step">#}
+{#                                        <input type="hidden" value=1 name="modal_sort">#}
+{#                                        <input type="hidden" value="{{ temp_file_path }}" name="temp_file_path">#}
+{#                                        <input type="hidden" value="{{ temp_file_name }}" name="temp_file_name">#}
+{#                                        <input type="hidden" value="{{ original_file_name }}" name="original_file_name">#}
+{##}
+{#                                        <div class="modal-footer justify-content-center align-items-center">#}
+{#                                            <button type="submit" class="btn btn-warning">Apply</button>#}
+{##}
+{#                                        </div>#}
+{#                                    </form>#}
+{##}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <!-- End of Modal Content -->#}
+{#                <div class="tab mb-4">#}
+{#                    <div class="card border-0 shadow">#}
+{#                        <div class="d-flex flex-row justify-content-between align-items-center w-100"#}
+{#                             style=" padding-left: 20px;  padding-right: 20px; padding-top: 20px">#}
+{#                            <h4>Apply Sorting</h4>#}
+{#                            <button type="button" data-bs-toggle="modal" data-bs-target="#modal-sort"#}
+{#                                    class="btn btn-warning"><i#}
+{#                                    class="fas fa-sort-amount-up fs-4 "></i></button>#}
+{#                        </div>#}
+{#                        <div class="card-body rounded">#}
+{#                            <div class="table-responsive rounded overflow-auto" style="max-height: 500px ;">#}
+{#                                <table class="table table-centered table-nowrap mb-0 rounded">#}
+{#                                    <thead class="bg-warning text-white">#}
+{#                                    <tr>#}
+{#                                        {% if not df.empty %}#}
+{#                                            {% for header in df.columns %}#}
+{#                                                <th class="border-0 ">{{ header }}</th>#}
+{#                                            {% endfor %}#}
+{#                                        {% endif %}#}
+{#                                    </tr>#}
+{#                                    </thead>#}
+{#                                    <tbody>#}
+{#                                    <!-- Item -->#}
+{##}
+{#                                    {% for index, row in df.iterrows %}#}
+{#                                        <tr class="border-0">#}
+{#                                            {% for cell in row %}#}
+{#                                                <td class="border-0 ">#}
+{#                                                    {{ cell|truncatechars:40 }}#}
+{#                                                </td>#}
+{#                                            {% endfor %}#}
+{#                                        </tr>#}
+{#                                    {% endfor %}#}
+{##}
+{#                                    <!-- End of Item -->#}
+{##}
+{##}
+{#                                    </tbody>#}
+{#                                </table>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{##}
+{#                    <!--Select Option -->#}
+{#                    <div class="card card-body ">#}
+{#                        <form name="upload_csv_form" method="post" action=""#}
+{#                              enctype="multipart/form-data">#}
+{#                            {% csrf_token %}#}
+{##}
+{#                            <input type="hidden" value=2 name="step">#}
+{#                            <input type="hidden" value=1 name="save_sorting">#}
+{#                            <input type="hidden" value="{{ temp_file_path }}" name="temp_file_path">#}
+{#                            <input type="hidden" value="{{ original_file_name }}" name="original_file_name">#}
+{##}
+{#                            <div style="display: flex; justify-content: center; align-items: center">#}
+{#                                <input#}
+{#                                        class="btn btn-warning " type="submit">#}
+{#                            </div>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% elif step  == 3 %}#}
+{#                <div class="d-flex flex-column justify-content-center align-items-center w-100 p-4">#}
+{#                    <i class="fas fa-list-alt fs-1 "></i>#}
+{#                    <h4>Template Placeholder Mapping</h4>#}
+{##}
+{#                    <div class="card card-body w-50 d-flex justify-content-center align-items-center">#}
+{#                        <form name="upload_csv_form" method="post" action=""#}
+{#                              enctype="multipart/form-data">#}
+{#                            {% csrf_token %}#}
+{#                            <div>#}
+{##}
+{##}
+                                {#                                    <select id="placeholder_1" required="required" name="placeholder_1">#}
+{#                                <div class="input-group mb-3">#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <label class="input-group-text w-100" for="inputGroupSelect01">Placeholder#}
+{#                                            1</label>#}
+{#                                    </div>#}
+{#                                    <select class="custom-select" id="placeholder_1" name="placeholder_1">#}
+{#                                        <option value="" disabled="disabled" selected="selected">Select option</option>#}
+{#                                        {% for header in columns %}#}
+{#                                            {% if not header|first in 'Unnamed' %}#}
+{#                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                            {% endif %}#}
+{##}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{##}
+{##}
+{#                            </div>#}
+{#                            <div>#}
+{##}
+{##}
+                                {#                                    <select id="placeholder_2" required="required" name="placeholder_2">#}
+{#                                <div class="input-group mb-3">#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <label class="input-group-text" for="inputGroupSelect01">Placeholder 2</label>#}
+{#                                    </div>#}
+{#                                    <select class="custom-select" id="placeholder_2" name="placeholder_2">#}
+{#                                        <option value="" disabled="disabled" selected="selected">Select option</option>#}
+{#                                        {% for header in columns %}#}
+{#                                            {% if not header|first in 'Unnamed' %}#}
+{#                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                            {% endif %}#}
+{##}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{##}
+{##}
+{#                            </div>#}
+{#                            <div>#}
+{##}
+{##}
+                                {#                                    <select id="placeholder_3" required="required" name="placeholder_3">#}
+{#                                <div class="input-group mb-3">#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <label class="input-group-text" for="inputGroupSelect01">Placeholder 3</label>#}
+{#                                    </div>#}
+{#                                    <select class="custom-select" id="placeholder_3" name="placeholder_3">#}
+{#                                        <option value="" disabled="disabled" selected="selected">Select option</option>#}
+{#                                        {% for header in columns %}#}
+{#                                            {% if not header|first in 'Unnamed' %}#}
+{#                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                            {% endif %}#}
+{##}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{##}
+{##}
+{#                            </div>#}
+{#                            <div>#}
+{##}
+                                {#                                    <select id="placeholder_4" required="required" name="placeholder_4">#}
+{#                                <div class="input-group mb-3">#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <label class="input-group-text" for="inputGroupSelect01">Placeholder 4</label>#}
+{#                                    </div>#}
+{#                                    <select class="custom-select" id="placeholder_4" name="placeholder_4">#}
+{#                                        <option value="" disabled="disabled" selected="selected">Select option</option>#}
+{#                                        {% for header in columns %}#}
+{#                                            {% if not header|first in 'Unnamed' %}#}
+{#                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                            {% endif %}#}
+{##}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{##}
+{#                                </label>#}
+{##}
+{#                            </div>#}
+{#                            <div>#}
+{##}
+{##}
+                                {#                                    <select id="image_placeholder" required="required" name="image_placeholder">#}
+{#                                <div class="input-group mb-3">#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <label class="input-group-text" for="inputGroupSelect01"#}
+{#                                               style="padding-right: 35px; padding-left: 35px">Image</label>#}
+{#                                    </div>#}
+{#                                    <select class="custom-select" id="image_placeholder" name="image_placeholder">#}
+{#                                        <option value="" disabled="disabled" selected="selected">Select option</option>#}
+{#                                        {% for header in columns %}#}
+{#                                            {% if not header|first in 'Unnamed' %}#}
+{#                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                            {% endif %}#}
+{##}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{##}
+{##}
+{#                            </div>#}
+{#                            <div>#}
+{##}
+{##}
+                                {#                                    <select id="audio_placeholder" required="requirned" name="audio_placeholder">#}
+{#                                <div class="input-group mb-3">#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <label class="input-group-text " for="inputGroupSelect01"#}
+{#                                               style="padding-right: 38px; padding-left: 38px">Audio </label>#}
+{#                                    </div>#}
+{#                                    <select class="custom-select" id="audio_placeholder" name="audio_placeholder">#}
+{#                                        <option value="" disabled="disabled" selected="selected">Select option</option>#}
+{#                                        {% for header in columns %}#}
+{#                                            {% if not header|first in 'Unnamed' %}#}
+{#                                                <option value="{{ header }}">{{ header }}</option>#}
+{#                                            {% endif %}#}
+{##}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+{#                                </div>#}
+{##}
+{##}
+{#                            </div>#}
+{#                            <input type="hidden" value=3 name="step">#}
+{#                            <input type="hidden" value="{{ temp_file_path }}" name="temp_file_path">#}
+{#                            <input type="hidden" value="{{ temp_file_name }}" name="temp_file_name">#}
+{#                            <input type="hidden" value="{{ original_file_name }}" name="original_file_name">#}
+                            {#                            <input type="hidden" value="{{ columns }}" name="columns">#}
+{##}
+{#                            <div style="display: flex; justify-content: center; align-items: center; margin-top: 40px">#}
+{#                                <input class="btn btn-warning "#}
+{#                                       type="submit">#}
+{#                            </div>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endif %}#}
+{#            {% if messages %}#}
+{#                <div class="tab w-100 d-flex flex-column justify-content-center align-items-center ">#}
+{##}
+{#                    {% for message in messages|slice:":1" %}#}
+{#                        <h1 style="padding-top: 60px;margin-left: -25px">{{ message }}</h1>#}
+{#                    {% endfor %}#}
+{##}
+{#                    <button type="button" class="btn btn-warning m-4"><a href="/select_slides.html" class="text-white">Generate#}
+{#                        Slides</a></button>#}
+{#                </div>#}
+{#            {% endif %}#}
+{##}
+{#        </div>#}
+
+
+        <div class="card">
+            <div class="card-body">
+                {#                <h4 class="card-title mb-4">Basic Wizard</h4>#}
+
+                <div id="basic-example">
+                    <h3>Upload File</h3>
+                    <section>
+                        <form name="upload_csv_form" method="post" action=""
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            {#                                            <h4 class="card-title">Dropzone</h4>#}
+                                            <div>
+
+                                                <div class="fallback">
+                                                    <input name="csv_file" id="csv_file" type="file" accept=".csv">
+                                                </div>
+                                                <div class="dz-message needsclick">
+                                                    <div class="mb-3">
+                                                        <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                                                    </div>
+
+                                                    <h4>Drop file here or click to upload.</h4>
+                                                </div>
+                                                <input type="hidden" value=1 name="step">
+
+                                            </div>
+
+                                            <div class="text-center mt-4">
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                    Upload File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </section>
+
+                    <!-- Preview Data -->
+                    <h3>Preview Data</h3>
+                    <section>
+                        <form>
+                            <div class="d-flex flex-row justify-content-evenly align-items-center">
+                                {#                            <div class="col-3">#}
+                                {##}
+                                {#                            </div>#}
+                                <div>
+                                    <h6>You can also apply sort filters on the Data</h6>
+                                </div>
+
+                                <div>
+
+                                    <!-- Static Backdrop modal Button -->
+                                    <button type="button" class="btn btn-primary waves-effect waves-light"
+                                            data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Sorting <i class="bx bx-sort"></i>
+                                    </button>
+
+
+                                    <!-- Static Backdrop Modal -->
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                         data-bs-keyboard="false" tabindex="-1" role="dialog"
+                                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-primary ">
+                                                    <h5 class="modal-title text-white" id="staticBackdropLabel">Sorting
+                                                        Filter</h5>
+                                                    <button type="button" class="btn-close text-white"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card  ">
+                                                        <div id="main"
+                                                             class="w-100 d-flex flex-row justify-content-around align-items-center mb-4 mt-4">
+                                                            <div class="btn-group btn-group-example mb-3 " role="group">
+                                                                <button type="button" id="btAdd"
+                                                                        class="btn btn-success   w-md"><i
+                                                                        class="dripicons-plus"></i></button>
+                                                                <button type="button" id="btRemove"
+                                                                        class="btn btn-danger  w-md"><i
+                                                                        class="dripicons-minus"></i></button>
+                                                            </div>
+
+                                                        </div>
+                                                        <form name="upload_csv_form" method="post" action=""
+                                                              enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                            <div class="parent">
+                                                                <div id="selectMore"
+                                                                     class="d-flex flex-row justify-content-center align-items-center">
+                                                                    <div class="m-2">
+                                                                        <div class="mb-3 row">
+
+                                                                            <div class="col-md-12">
+                                                                                <select class="form-select"
+                                                                                        id="sorting_0" name="sorting_0">
+                                                                                    <option value="" disabled="disabled"
+                                                                                            selected="selected">
+                                                                                        Select option
+                                                                                    </option>
+
+                                                                                    {% for header in df.columns %}
+                                                                                        <option value="{{ header }}">{{ header }}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                    <div class="m-2">
+                                                                        <div class="mb-3 row">
+
+                                                                            <div class="col-md-12">
+                                                                                <select class="form-select "
+                                                                                        id="order_0" name="order_0">
+                                                                                    <option value="" disabled="disabled"
+                                                                                            selected="selected">
+                                                                                        Sort By
+                                                                                    </option>
+                                                                                    <option value="Ascending">Ascending
+                                                                                    </option>
+                                                                                    <option value="Descending">
+                                                                                        Descending
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <input type="hidden" value=2 name="step">
+                                                            <input type="hidden" value=1 name="modal_sort">
+                                                            <input type="hidden" value="{{ temp_file_path }}"
+                                                                   name="temp_file_path">
+                                                            <input type="hidden" value="{{ temp_file_name }}"
+                                                                   name="temp_file_name">
+                                                            <input type="hidden" value="{{ original_file_name }}"
+                                                                   name="original_file_name">
+
+                                                            <div class="modal-footer justify-content-center align-items-center">
+                                                                <button type="submit" class="btn btn-primary">Apply
+                                                                </button>
+
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <h4 class="card-title">Data Preview</h4>
+
+                                            <table id="datatable"
+                                                   class="table table-bordered dt-responsive  nowrap w-100">
+                                                <thead>
+                                                <tr>
+                                                    {% if not df.empty %}
+                                                        {% for header in df.columns %}
+                                                            <th>{{ header }}</th>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                {% for index, row in df.iterrows %}
+                                                    <tr>
+                                                        {% for cell in row %}
+                                                            <td>
+                                                                {{ cell|truncatechars:40 }}
+                                                            </td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Placeholder Mapping -->
+                    <h3>Placeholder Mapping</h3>
+                    <section>
+                        <form name="upload_csv_form" method="post" action=""
+                              enctype="multipart/form-data"
+                              class="w-100 d-flex flex-column justify-content-center align-items-center">
+                            {% csrf_token %}
+                            <div class="w-50 row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label>Placeholder 1</label>
+                                        <select class="form-select" name="placeholder_1" id="placeholder_1">
+                                           {% for header in columns %}
+                                            {% if not header|first in 'Unnamed' %}
+                                                <option value="{{ header }}">{{ header }}</option>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-50 row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label>Placeholder 2</label>
+                                        <select class="form-select" name="placeholder_2" id="placeholder_2">
+                                             {% for header in columns %}
+                                            {% if not header|first in 'Unnamed' %}
+                                                <option value="{{ header }}">{{ header }}</option>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-50 row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label>Placeholder 3</label>
+                                        <select class="form-select" name="placeholder_3" id="placeholder_3">
+                                             {% for header in columns %}
+                                            {% if not header|first in 'Unnamed' %}
+                                                <option value="{{ header }}">{{ header }}</option>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-50 row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label>Placeholder 4</label>
+                                        <select class="form-select" name="placeholder_4" id="placeholder_4">
+                                            {% for header in columns %}
+                                            {% if not header|first in 'Unnamed' %}
+                                                <option value="{{ header }}">{{ header }}</option>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-50 row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label>Image Placeholder</label>
+                                        <select class="form-select" name="image_placeholder" id="image_placeholder">
+                                          {% for header in columns %}
+                                            {% if not header|first in 'Unnamed' %}
+                                                <option value="{{ header }}">{{ header }}</option>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-50 row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label>Audio Placeholder</label>
+                                        <select class="form-select" name="audio_placeholder" id="audio_placeholder">
+                                           {% for header in columns %}
+                                            {% if not header|first in 'Unnamed' %}
+                                                <option value="{{ header }}">{{ header }}</option>
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                               <input type="hidden" value=3 name="step">
+                            <input type="hidden" value="{{ temp_file_path }}" name="temp_file_path">
+                            <input type="hidden" value="{{ temp_file_name }}" name="temp_file_name">
+                            <input type="hidden" value="{{ original_file_name }}" name="original_file_name">
+
+
+                            <div style="display: flex; justify-content: center; align-items: center; margin-top: 40px">
+                                <input class="btn btn-warning "
+                                       type="submit">
+                            </div>
+                        </form>
+
+                    </section>
+
+                    {#                    <!-- Confirm Details -->#}
+                    {#                    <h3>Confirm Detail</h3>#}
+                    {#                    <section>#}
+                    {#                        <div class="row justify-content-center">#}
+                    {#                            <div class="col-lg-6">#}
+                    {#                                <div class="text-center">#}
+                    {#                                    <div class="mb-4">#}
+                    {#                                        <i class="mdi mdi-check-circle-outline text-success display-4"></i>#}
+                    {#                                    </div>#}
+                    {#                                    <div>#}
+                    {#                                        <h5>Confirm Detail</h5>#}
+                    {#                                        <p class="text-muted">If several languages coalesce, the grammar of the#}
+                    {#                                            resulting</p>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                            </div>#}
+                    {#                        </div>#}
+                    {#                    </section>#}
+                </div>
+
+            </div>
+            <!-- end card body -->
+        </div>
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block extra_javascript %}
+
+    <!-- jquery step -->
+    <script src="{% static 'libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+    <!-- form wizard init -->
+    <script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+    <!-- Drop Zone -->
+    <script src="{% static 'libs/dropzone/dist/min/dropzone.min.js' %}"></script>
+
+    <!-- Required datatable js -->
+    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- Datatable init js -->
+    <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+    <!-- Multiple Div ads Through this  -->
+
+    <script>
+        $('form#myForm').submit();
+
+        $(document).ready(function () {
+            console.log("DOCUMENT READY IN JQUERY !")
+            var id = 0;
+            var max = 10;
+            $(function () {
+                $('#btAdd').click(function (e) {
+                    console.log("JQUERY CALLED")
+                    id++;
+
+                    $("#selectMore").first().clone().removeAttr('id').attr('id', `selectMore` + id).attr('data-id', id).appendTo(".parent")
+                    $(`#selectMore` + id).find('#sorting_0').removeAttr("value").removeAttr("id").attr('id', `sorting_` + id).removeAttr("name").attr('name', `sorting_` + id)
+                    $(`#selectMore` + id).find('#order_0').removeAttr("value").removeAttr("id").attr('id', `order_` + id).removeAttr("name").attr('name', `order_` + id)
+
+                });
+                $('#btRemove').click(function (e) {
+                    $('div[data-id="' + id + '"]').remove();
+                    id--;
+                });
+                $('#btRemoveAll').click(function (e) {
+
+                    for (var x = 0; x <= id; x++) {
+                        $('div[data-id="' + x + '"]').remove();
+
+                    }
+                    id = 0;
+                });
+            });
+        });
+    </script>
+
+
+{% endblock %}
